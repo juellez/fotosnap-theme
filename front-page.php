@@ -13,12 +13,12 @@ get_header();
 
         <?php
         $slider = array(
-            'fiona' => array(
-                'tagline' => "Good-bye Selfie. Hello FotoSnap.",
-                'align' => 'left'
-            ),
             'whiteboard' => array(
                 'tagline' => "Get noticed. Get the job.",
+                'align' => 'left'
+            ),
+            'fiona' => array(
+                'tagline' => "Good-bye Selfie. Hello FotoSnap.",
                 'align' => 'left'
             ),
             'kent-bkg' => array(
@@ -29,13 +29,27 @@ get_header();
                 'tagline' => "Finally. Something to smile about.",
                 'align' => 'right'
             ),
-            'yellow' => array(
-                'tagline' => "It's 2017. Time to FotoSnap your profile.",
-                'align' => 'right'
-            ),
+            // 'yellow' => array(
+            //     'tagline' => "It's 2017. Time to FotoSnap your profile.",
+            //     'align' => 'right'
+            // ),
+            // 'yellow-shoot' => array(
+            //     'tagline' => "Locations for every personality.",
+            //     'align' => 'left'
+            // ),
         );
         $i = 1;
-        // shuffle($slider);
+
+        $keys = array_keys($slider);
+        $new = array();
+
+        shuffle($keys);
+
+        foreach($keys as $key) {
+            $new[$key] = $slider[$key];
+        }
+
+        $slider = $new;
         ?>
         <div id="athena-jumbotron">
             <div id="athena-slider" class="hero">

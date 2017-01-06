@@ -253,7 +253,8 @@ function fs_render_footer(){ ?>
             
             <div class="athena-copyright">
                 <!-- <a href="#">Terms of Use + Privacy Policy</a> | -->
-                Made with &hearts; in Portland, Oregon. |
+                Made with &hearts; in Portland, Oregon |
+                Credits |
                 <?php echo esc_attr( get_theme_mod( 'copyright_text', __( 'Copyright Company Name 2015', 'athena' ) ) ); ?>
             </div>
             
