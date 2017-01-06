@@ -83,42 +83,112 @@ get_header();
         <?php do_action('athena_homepage'); ?>
 
         <div class="row">
-            <div class="homepage-page-content how-it-works col-sm-12">
+            <div class="homepage-page-content how-it-works">
                 <?php if (is_home() && is_front_page()) :
                     // fetch the homepage editable copy
-                    $page = get_page_by_path('home', OBJECT, 'page');
-                    echo $page->post_content;
+                    // $page = get_page_by_path('home', OBJECT, 'page');
+                    // echo $page->post_content;
                 endif; ?>
+
+                <div class="center">
+                With FotoSnap, getting <strong>great photos</strong> for your online profile is a snap! <strong>Convenient, flexible and fresh,</strong> a FotoSnapped profile will <strong>get you noticed</strong>&mdash;helping you get that job, date or client.
+                </div>
+
+                <div class="callout" style="padding-top: 0; margin: 120px 0 0;">
+                    <h2 style="margin: -30px auto 30px; background-color: #fff; width: 50%; text-align: center;">How it Works: 3 Simple Steps</h2>
+                        <div class="how-it-works row" style="font-size: 20px;">
+                          <div class="col-md-4">
+                            <h3 class="widget-title">1: Book</h3>
+                            Choose from a selection of unique locations at a time that's right for you.
+                          </div>
+                          <div class="col-md-4">
+                            <h3 class="widget-title">2: Smile</h3>
+                            After meeting our photographer on location, you'll have 15 minutes of dedicated camera time.
+                          </div>
+                          <div class="col-md-4">
+                            <h3 class="widget-title">3: Download</h3>
+                            We pick, edit and share the best photos&nbsp;for you to choose from within 2 business days. Choose the one you want, download it for free—and enjoy the extra attention.
+                          </div>
+                        </div>
+                        <div class="center"><a href="/venues" data-track-event-category="cta" data-track-event-action="clicks to book" data-track-event-label="Get Started" class="ga-track athena-button primary large">Get Started</a></div> 
+                </div>
+
             </div>
         </div>
 
         <div class="row">
-            <div class="homepage-page-content testimonials col-sm-12">
+            <div class="homepage-page-content testimonials">
                 <?php if (is_home() && is_front_page()) :
+                    // @todo pull hard-coded copy into page for editability
                     // fetch the homepage editable copy
-                    $page = get_page_by_path('home/testimonials', OBJECT, 'page');
-                    echo $page->post_content;
+                    // $page = get_page_by_path('home/testimonials', OBJECT, 'page');
+                    // echo $page->post_content;
                 endif; ?>
+
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+
+                <div class="col-md-4">
+                  <span class="client-avatar pull-left"><img class="alignnone size-medium wp-image-698" src="/wp-content/uploads/2016/09/Robert-Portland-Dylan-square-150x150.jpg" alt="" width="150" height="150"></span>
+                  <blockquote>"I’m very happy with the whole experience and won’t hesitate to recommend your services to others! Thanks!"</blockquote>
+                  <span class="client">&mdash; Robert</span>
+                </div>
+
+                <div class="col-md-4">
+                  <span class="client-avatar pull-left"><img class="alignnone size-medium wp-image-698" src="http://fs.wanderlustpdx.com/wp-content/uploads/2017/01/chris-umbrella-cropped-150x150.jpg" alt="" width="300" height="300"></span>
+                  <blockquote>"I only wish I would have done this sooner! My online dating activity has nearly doubled."</blockquote>
+                  <span class="client">&mdash; Chris L</span>
+                </div>
+
+                <div class="col-md-4">
+                  <span class="client-avatar pull-left"><img class="alignnone size-medium wp-image-698" src="/wp-content/uploads/2017/01/MICHAEL-COATES_4_HS-150x150.jpg" alt="" width="300" height="300"></span>
+                  <blockquote>"These people are terrific! Efficient, fast, professional and extremely good."</blockquote>
+                  <span class="client">&mdash; Michael</span>
+                </div>
+
+                <!-- 
+                <div class="col-md-4">
+                  <span class="client-avatar pull-left"><img class="alignnone size-medium wp-image-698" src="/wp-content/uploads/2015/08/RAYMOND-RODRIGUEZ_2_version-2-e1483692719630-150x150.jpg" alt="" width="150" height="150"></span>
+                  <blockquote>"The folks at FotoSnap took several fun, professional photos of me. I love them! Thank you for making me look great, guys!"</blockquote>
+                  <span class="client">&mdash; Raymond</span>
+                </div>
+                <div class="col-md-12 center">
+                    <a href="/gallery"
+                    data-track-event-category="cta"
+                    data-track-event-action="clicks to view testimonials"
+                    data-track-event-label="See More"
+                    class="ga-track athena-button default">Meet More Happy Clients</a>
+                </div>
+                -->
+
             </div>
         </div>
 
+        <div class="clear">&nbsp;</div>
+
         <div class="row">
-            <?php get_sidebar('left'); ?>
+            <div class="homepage-page-content venues center">
 
-            <h2>Fun Locations</h2>
-            <?php // the_content(); ?>
-            <?php fs_show_children('active') ?>
-            <a href="/venues"
-                data-track-event-category="cta"
-                data-track-event-action="clicks to view locations"
-                data-track-event-label="See More"
-               class="ga-track athena-button primary large animated">See More</a>                            
+                <h2>PopUp Studios @ Fun Locations</h2>
+                <p>Snag your spot in these upcoming photoshoots before they fill up.</p>
+                <?php fs_show_venues('active') ?>
+                <div class="col-md-12 center">
+                    <br>
+                    <a href="/venues"
+                        data-track-event-category="cta"
+                        data-track-event-action="clicks to view locations"
+                        data-track-event-label="See More"
+                       class="ga-track athena-button primary large">See More</a>                            
+                </div>
+            </div>
+        </div>
 
-            <br><br>
-            <div class="clear">&nbsp;</div>
-            <br><br>
+        <div class="clear"><br><br><br></div>
 
+        <div class="row">
             <div class="homepage-page-content col-sm-<?php echo athena_main_width(); ?>">                
+                <h2>Pro Tips</h2>
+
                 <?php if (have_posts()) : ?>
 
                     <?php if (is_home() && !is_front_page()) : ?>
@@ -142,10 +212,6 @@ get_header();
                         ?>
 
                     <?php endwhile; ?>
-                    <?php echo $front == 'posts' ? '</div>' : ''; ?>
-                    <div class="athena-pagination">
-                        <?php echo paginate_links(); ?>
-                    </div>
 
                 <?php else : ?>
 

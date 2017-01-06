@@ -59,7 +59,12 @@ function fs_status_init() {
 }
 add_action( 'init', 'fs_status_init' );
 
-function fs_show_children($status=''){
+function fs_show_venues($status=''){
+    $post = get_page_by_path('venues', OBJECT, 'page');
+    fs_show_children($status,$post->ID);
+}
+
+function fs_show_children($status='',$id=0){
 
     global $post;
     if( !$id ) $id = $post->ID;
@@ -82,7 +87,7 @@ function fs_show_children($status=''){
 
     while ( $child_pages->have_posts() ) : $child_pages->the_post();
        if( $post->post_name != 'host' && $post->post_name != 'apply' ):
-           echo '<div class="col-xs-6 col-sm-4">';
+           echo '<div class="col-xs-6 col-sm-3 thumb-card">';
            echo '<a href="';
            the_permalink();
            echo '">';

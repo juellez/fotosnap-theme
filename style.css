@@ -66,6 +66,7 @@ body #athena-page-jumbotron .entry-header small a {
   border: solid 1px #ccc; 
   padding: 40px;
 }
+
 .venue-gallery img {
   margin-bottom: 10px;
 }
@@ -140,8 +141,9 @@ body #athena-jumbotron .hero img{
 
 .homepage-page-content .entry-title { font-weight: 400; }
 .homepage-page-content .entry-meta { display: none; }
+
 .homepage-page-content.how-it-works {
-  margin: 40px 0;
+  margin: 120px 0 0;
   font-size: 140%;
   font-weight: lighter;
 }
@@ -157,4 +159,83 @@ body #athena-jumbotron .hero img{
 .homepage-page-content .athena-blog-post {
   width: 44%;
 }
+
+.homepage-page-content h2
+{
+  text-align: center;
+  font-weight: 300;
+  margin: 80px 0 40px;
+  font-size: 38px;
+}
+
+.homepage-page-content .post .entry-title {
+  font-size: 26px;
+  margin: 30px;
+}
+
+.homepage-page-content .post .continue-reading {
+  text-align: center;
+}
+
+.homepage-page-content .post .continue-reading .athena-button.primary {
+  background: #C8C8C8;
+}
+
+.homepage-page-content
+.more {
+    margin-top: 40px;
+    border-top: solid 1px #ccc;
+}
+.homepage-page-content
+.more .athena-button.default {
+    margin-top: -20px;
+    background-color: #C8C8C8;
+}
+.homepage-page-content.testimonials
+.client-avatar {
+  width: 75px;
+  height: 75px;
+  overflow: hidden;
+  margin-right: 10px;
+  margin-bottom: 40px;
+}
+.homepage-page-content.testimonials
+.client-avatar img {
+  width: 75px;
+  height: auto;
+  border-radius: 40px;
+}
+.homepage-page-content.testimonials
+blockquote {
+  font-size: 18px;
+}
+.homepage-page-content.testimonials
+.client {
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.homepage-page-content.venues h2 {
+  margin-bottom: 0;
+}
+.homepage-page-content.venues p {
+  color: #999;
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+
+/* venue & photo blocks */
+
+.thumb-card {
+  text-align: center;
+}
+.thumb-card h4 {
+  margin-top: 6px;
+  font-weight: normal;
+}
+.thumb-card h4 a,
+.thumb-card h4 a:visited {
+  color: #666;
+}
+
 
