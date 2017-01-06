@@ -1,0 +1,160 @@
+/*
+ Theme Name:   Fotosnap - Athena Child
+ Theme URI: https://smartcatdesign.net/articles/athena-responsive-multipurpose-wordpress-theme/
+ Description:  Athena Child Theme
+ Author: Jewel extended Smartcat's Athena 
+ Author URI: https://smartcatdesign.net
+ Template:     athena
+ Version: 1.0.9
+ License:      GNU General Public License v2 or later
+ License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+ Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
+ Text Domain: athena-child
+*/
+
+
+html,
+body,
+button,
+input,
+select,
+textarea {
+  font-family: 'Raleway', sans-serif;
+}
+
+body h1, body h2, body h3, body h4, body h5, body h6, body .entry-content {
+  margin-top: 0;
+}
+
+.parallax-window { position: relative; }
+.center  {
+  margin: 0 auto;
+  text-align: center;
+}
+.dark-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,.3);
+}
+.dark-overlay-text {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+}
+.page-template-page-photographers img.attachment-thumbnail {
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px #888888;
+}
+.photographer-avatar { 
+  border-radius: 10px;
+  height: 200px;
+  overflow: hidden;
+  max-width: 200px;
+  box-shadow: 2px 2px 5px #888888;
+}
+
+body #athena-page-jumbotron .entry-title{ margin-top: 0; }
+body #athena-page-jumbotron .entry-header { margin-top: 150px; }
+body #athena-page-jumbotron .entry-header small a {
+  font-size: 16px;
+  font-weight: lighter;
+  color: #eee;
+  margin-top: 100px;
+}
+
+
+.callout {
+  border: solid 1px #ccc; 
+  padding: 40px;
+}
+.venue-gallery img {
+  margin-bottom: 10px;
+}
+
+/* top nav */
+body #athena-logo img {
+    max-height: 80px;
+    padding: 0;
+    margin-top: 7px;
+}
+
+body #athena-header.frontpage.sticky .header-inner #athena-logo img {
+  padding: 2px 0 5px;
+}
+
+body #athena-header.frontpage .header-inner {
+    background: rgba(27,27,27,0.6);
+    height: 76px;
+}
+
+body .site-branding { padding: 0 0; }
+
+body .main-navigation {
+  padding: 10px 0 0;
+}
+body #athena-header.frontpage.sticky .main-navigation {
+  padding: 0 0;
+  margin-top: -6px;
+}
+
+body ul.athena-nav > li.menu-item:nth-last-child(1)  {
+    border: solid 1px #fff;
+    padding: 10px 10px 2px;
+    margin-top: -10px;
+}
+
+body ul.athena-nav > li.menu-item a {
+    font-size: 16px;
+    font-family: Raleway, sans-serif;
+    font-weight: 200;
+    text-transform: uppercase;
+}
+
+/* homepage */
+body #athena-jumbotron{
+    height: 95vh;
+}
+
+body #athena-jumbotron .slider-bottom {
+  bottom: 40px;
+}
+
+body #athena-jumbotron .camera_fakehover {
+  height: 96vh;
+}
+
+body #athena-jumbotron .overlay {
+  top: 40%;
+}
+
+body #athena-jumbotron .overlay .parallax {
+    background-color: rgba(0,0,0,.5);
+    padding-bottom: 40px;
+    padding-left: 30px;
+}
+
+body #athena-jumbotron .hero img{
+    transition: 0.3s all ease-in-out;
+    -moz-transition: 0.3s all ease-in-out;
+    -webkit-transition: 0.3s all ease-in-out;
+}
+
+.homepage-page-content .entry-title { font-weight: 400; }
+.homepage-page-content .entry-meta { display: none; }
+.homepage-page-content.how-it-works {
+  margin: 40px 0;
+  font-size: 140%;
+  font-weight: lighter;
+}
+
+#athena-homepage-widget > div {
+  background: rgba(10,10,10, 0.1);
+}
+
+.athena-blog-content.masonry {
+  margin-left: 4%;
+}
+
+.homepage-page-content .athena-blog-post {
+  width: 44%;
+}
+
