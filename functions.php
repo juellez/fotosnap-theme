@@ -104,50 +104,84 @@ function fs_show_children($status='',$id=0,$colw=3){
 }
 add_shortcode('show_child_pages', 'fs_show_children');
 
-/* --------------------
-   virtue functions (for portfolio + gallery support)
------------------------ */
-/*
-define( 'OPTIONS_SLUG', 'virtue_premium' );
-define( 'LANGUAGE_SLUG', 'virtue' );
-load_theme_textdomain('virtue', get_template_directory() . '/languages');
 
-// require_once locate_template('/themeoptions/framework.php');                // Options framework
-// require_once locate_template('/themeoptions/options.php');                  // Options framework
-// require_once locate_template('/themeoptions/options/virtue_extension.php'); // Options framework extension
-require_once locate_template('/kt_framework/extensions.php');               // Remove options from the admin
+/*-------------------------------------------*\
+   Referral Codes + Tracking
+\*-------------------------------------------*/
 
-// require_once locate_template('/lib/utils.php');                             // Utility functions
-require_once locate_template('/lib/init.php');                              // Initial theme setup and constants
-require_once locate_template('/lib/sidebar.php');                           // Sidebar class
-require_once locate_template('/lib/config.php');                            // Configuration
-require_once locate_template('/lib/cleanup.php');                           // Cleanup
-// require_once locate_template('/lib/custom-nav.php');                        // Nav Options
-// require_once locate_template('/lib/nav.php');                               // Custom nav modifications
+// Custom Post Type
+add_action("init", "fs_register_referral_post_type"); // Add our custom post type
+add_action('init', 'fs_register_referral_menu'); // Add to admin menu
 
-require_once locate_template('/lib/metaboxes.php');                         // Custom metaboxes
-require_once locate_template('/lib/gallery_metabox.php');                   // Custom Gallery metaboxes
-require_once locate_template('/lib/taxonomy-meta-class.php');               // Taxonomy meta boxes
-require_once locate_template('/lib/taxonomy-meta.php');                     // Taxonomy meta boxes
-require_once locate_template('/lib/comments.php');                          // Custom comments modifications
-require_once locate_template('/lib/post-types.php');                        // Post Types
-require_once locate_template('/lib/Mobile_Detect.php');                     // Mobile Detect
-require_once locate_template('/lib/aq_resizer.php');                        // Resize on the fly
-require_once locate_template('/lib/revslider-activate.php');                // Plugin Activation
+function fs_register_referral_menu()
+{
+    register_nav_menus(array( // Using array to specify more menus if needed
+        'header-menu' => __('Header Menu', 'referral'), // Main Navigation
+        'sidebar-menu' => __('Sidebar Menu', 'referral'), // Sidebar Navigation
+        'extra-menu' => __('Extra Menu', 'referral') // Extra Navigation if needed (duplicate as many as you need!)
+    ));
+}
+function fs_register_referral_post_type() {
+    register_post_type( "referral",
+        array(
+            "labels" => array(
+                "name" => __( "Referral Codes" ),
+                "singular_name" => __( "Referral Code" ),
+                "add_new" => __( "Add New" ),
+                "add_new_item" => __( "Add New Referral Code" ),
+                "edit" => __( "Edit" ),
+                "edit_item" => __( "Edit Referral Code" ),
+                "new_item" => __( "New Referral Code" ),
+                "view" => __( "View Referral Codes" ),
+                "view_item" => __( "View Referral Code" ),
+                "search_items" => __( "Search Referral Codes" ),
+                "not_found" => __( "No Referral Codes Found" ),
+                "not_found_in_trash" => __( "No Referral Codes Found in trash" ),
+                "parent" => __( "Referral Code" ),
+            ),
+            "rewrite" => array(
+                "slug" => "friends",
+                "with_front" => false,
+                "pages" => false,
+                ),
+            'description' => 'Referral codes in Zozi for tracking.',
+            'public' => true,
+            'exclude_from_search' => true,
+            'publicly_queryable' => true,
+            'show_ui' => true,
+            'menu_position' => 8,
+            'menu_icon' => 'dashicons-star-empty',
+            'capability_type' => 'page',
+            "has_archive" => false,
+            "supports" => array( "title", "editor", "revisions"),
+            'can_export' => true,
+            )
+        );
+}
 
-require_once locate_template('/lib/kad_shortcodes/shortcodes.php');                         // Shortcodes
-require_once locate_template('/lib/kad_shortcodes/carousel_shortcodes.php');                // Carousel Shortcodes
-require_once locate_template('/lib/kad_shortcodes/custom_carousel_shortcodes.php');         // Carousel Shortcodes
-require_once locate_template('/lib/kad_shortcodes/testimonial_shortcodes.php');             // Carousel Shortcodes
-require_once locate_template('/lib/kad_shortcodes/testimonial_form_shortcode.php');         // Carousel Shortcodes
-require_once locate_template('/lib/kad_shortcodes/blog_shortcodes.php');                    // Blog Shortcodes
-require_once locate_template('/lib/kad_shortcodes/image_menu_shortcodes.php');              // image menu Shortcodes
-require_once locate_template('/lib/kad_shortcodes/google_map_shortcode.php');               // Map Shortcodes
-require_once locate_template('/lib/kad_shortcodes/portfolio_shortcodes.php');               // Portfolio Shortcodes
-require_once locate_template('/lib/kad_shortcodes/portfolio_type_shortcodes.php');          // Portfolio Shortcodes
-require_once locate_template('/lib/kad_shortcodes/staff_shortcodes.php');                   // Staff Shortcodes
-require_once locate_template('/lib/kad_shortcodes/gallery.php');                            // Gallery Shortcode
-*/
+add_action( 'add_meta_boxes_referral', 'fs_metaBoxReferralAdd', 15 );
+function fs_metaBoxReferralAdd( $post ){
+    // add_meta_box( $id, $title, $callback, $screen, $context, $priority, $callback_args );
+    // screen: 'post','page','dashboard','link','attachment','custom_post_type'
+    // context: 'normal', 'advanced', or 'side'
+    // priority: 'high', 'core', 'default' or 'low'
+   add_meta_box( 'fs_referrals', 'Zozi + Tracking Information', 'fs_metaBoxReferralRender', 'referral', 'normal', 'high' );
+   remove_meta_box( 'slugdiv', 'referral', 'normal' ); 
+}
+function fs_metaBoxReferralRender( $post ){
+    $referrer_name = get_post_meta($post->ID,'referrer_name',true);
+    $zozi_referral_code = get_post_meta($post->ID,'zozi_referral_code',true);
+    include( get_stylesheet_directory()."/admin-referral.php");
+}
+add_action( 'save_post_referral', 'fs_metaBoxReferralSave', 15 );
+function fs_metaBoxReferralSave( $post_id ){
+    if( isset($_POST['zozi_referral_code']) ){
+        update_post_meta( $post_id, 'zozi_referral_code', trim($_POST['zozi_referral_code']) );
+    }
+    if( isset($_POST['referrer_name']) ){
+        update_post_meta( $post_id, 'referrer_name', trim($_POST['referrer_name']) );
+    }
+}
 
 /* --------------------
    athena (parent theme)
