@@ -47,7 +47,7 @@ if( is_page() && $post->post_parent > 0 ) {
                     <br><br>
                     <small>Love capturing confidence, beauty, smiles and striking profiles? Join our FotoSnap photographers.</small>
                     <br><br>
-                    <a href="apply" class="athena-button primary large">Apply</a>
+                    <a href="/contact" class="athena-button primary large">Apply</a>
                 <?php endif; ?>
                 </div>
 

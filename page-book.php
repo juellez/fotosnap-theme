@@ -10,7 +10,7 @@ get_header();
 
         <?php while (have_posts()) : the_post(); ?>
 
-
+            <?php /*
             <?php if (get_post_thumbnail_id($post->ID)) : ?>
                 <div id="athena-page-jumbotron" class="parallax-window" data-parallax="scroll" data-image-src="<?php echo wp_get_attachment_url(get_post_thumbnail_id($post->ID)) ?>">
                     <div class="dark-overlay"></div>
@@ -36,42 +36,30 @@ get_header();
                 </div>
                 <br><br>
             <?php endif; ?>
+            */ ?>
 
-            <div class="row">
-                
-                <?php get_sidebar('left'); ?>
-                
-                <div class="col-sm-<?php echo athena_main_width(); ?>">
+            <div class="row" style="min-height: 800px">
 
-                    <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+                <h1 class="title">Book Now</h1>
 
-                        <div class="entry-content">
-                            <?php the_content(); ?>
+                <p>Select a time slot on the calendar to <strong>book a photoshoot instantly</strong>.
+                Have a specific place in mind? Filter the calendar by location.
+                Don’t see a time slot or location that works well for you? 
+                <a href="/contact" class="ga-track" data-track-event-category="bookings" data-track-event-action="contact us">Let us know</a> a few times or places you’d love to see and we’ll do our best to make it happen.</p>
 
-                            <iframe id="zozi-advance-calendar-iframe" style="width: 100%; height: 100%;" width="100" height="50" frameborder="0" scrolling="no" seamless="seamless" data-src="https://a.zozi.com/#/promote/widgets/fotosnapor/calendar"></iframe>
+                <?php // the_content(); ?>
 
-                            <script src="https://a.zozi.com/assets/widgets/calendar.origin.js"></script>
+                <iframe id="zozi-advance-calendar-iframe" style="width: 100%; height: 600px" width="100%" height="600" frameborder="0" scrolling="no" seamless="seamless" data-src="https://a.zozi.com/#/promote/widgets/fotosnapor/calendar"></iframe>
 
-                        </div><!-- .entry-content -->
+                <script src="https://a.zozi.com/assets/widgets/calendar.origin.js"></script>
 
-                        <footer class="entry-footer">
-                            <?php
-                            edit_post_link(
-                                    sprintf(
-                                            /* translators: %s: Name of current post */
-                                            esc_html__('Edit %s', 'athena'), the_title('<span class="screen-reader-text">"', '"</span>', false)
-                                    ), '<span class="edit-link">', '</span>'
-                            );
-                            ?>
-                        </footer><!-- .entry-footer -->
+                <br><br>
+                <br><br>
 
+                <?php fs_show_venues('active') ?>
 
-
-                    </article><!-- #post-## -->
-                </div>
-
-                <?php get_sidebar(); ?>
-
+                <br><br>
+                <br><br>
             </div>
 
         <?php endwhile; // End of the loop. ?>

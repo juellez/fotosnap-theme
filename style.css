@@ -22,10 +22,21 @@ textarea {
   font-family: 'Raleway', sans-serif;
 }
 
+footer { margin-top: 60px; }
 body h1, body h2, body h3, body h4, body h5, body h6, body .entry-content {
   margin-top: 0;
 }
 
+body .content-area p a {
+    color: #00bcd4;
+    font-weight: bold;
+}
+
+h1.title {
+  font-weight: 300;
+  font-size: 48px;
+  margin-bottom: 0;
+}
 .parallax-window { position: relative; }
 .center  {
   margin: 0 auto;
@@ -238,4 +249,12 @@ blockquote {
   color: #666;
 }
 
-
+/* pricing page */
+.content-area table {
+  max-width: 400px;
+}
+table td { text-align: left; }
+.center table { margin: 0 auto; }
+.content-area hr {
+  margin-top: 80px;
+}

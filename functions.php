@@ -59,12 +59,12 @@ function fs_status_init() {
 }
 add_action( 'init', 'fs_status_init' );
 
-function fs_show_venues($status=''){
+function fs_show_venues($status='',$colw=3){
     $post = get_page_by_path('venues', OBJECT, 'page');
-    fs_show_children($status,$post->ID);
+    fs_show_children($status,$post->ID,$colw);
 }
 
-function fs_show_children($status='',$id=0){
+function fs_show_children($status='',$id=0,$colw=3){
 
     global $post;
     if( !$id ) $id = $post->ID;
@@ -87,7 +87,7 @@ function fs_show_children($status='',$id=0){
 
     while ( $child_pages->have_posts() ) : $child_pages->the_post();
        if( $post->post_name != 'host' && $post->post_name != 'apply' ):
-           echo '<div class="col-xs-6 col-sm-3 thumb-card">';
+           echo '<div class="col-xs-6 col-sm-'.$colw.' thumb-card">';
            echo '<a href="';
            the_permalink();
            echo '">';
@@ -252,8 +252,8 @@ function fs_render_footer(){ ?>
         <div class="row">
             
             <div class="athena-copyright">
-                <a href="#">Terms of Use + Privacy Policy</a> |
-                Made with :heart: in Portland, Oregon. |
+                <!-- <a href="#">Terms of Use + Privacy Policy</a> | -->
+                Made with &hearts; in Portland, Oregon. |
                 <?php echo esc_attr( get_theme_mod( 'copyright_text', __( 'Copyright Company Name 2015', 'athena' ) ) ); ?>
             </div>
             
