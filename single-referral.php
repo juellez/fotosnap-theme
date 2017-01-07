@@ -5,6 +5,13 @@
 get_header();
 $referrer_name = get_post_meta($post->ID,'referrer_name',true);
 $zozi_referral_code = get_post_meta($post->ID,'zozi_referral_code',true);
+$cookie = array(
+    'referral' => $post->post_name,
+    'referral_code' => $zozi_referral_code,
+    'referrer_name' => $referrer_name
+);
+setcookie('fsref',serialize($cookie),time() + (86400 * 30));
+// $_COOKIE['fsref'])
 ?>
 <div id="referral-layer" style="display: block;">
     <h2>You’ve been invited by <span class="invited-by"><?=$referrer_name ?></span> to FotoSnap your profile.</h2>
@@ -17,7 +24,7 @@ $zozi_referral_code = get_post_meta($post->ID,'zozi_referral_code',true);
 
     <?php endwhile; ?>
 
-    <p><a href="/book"
+    <p><a href="/book?ref=<?=$post->post_name ?>"
         data-track-event-category="referral"
         data-track-event-action="clicks through referral"
         data-track-event-label="<?=$zozi_referral_code ?>"

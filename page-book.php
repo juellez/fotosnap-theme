@@ -2,9 +2,16 @@
 /**
  * Template Name: Book Now / Calendar
  */
+if( $_COOKIE['fsref'] ){
+    // they clicked through from a referral - track this
+    $cookie = unserialize($_COOKIE['fsref']);
+    // referral, referral_code, referrer_name
+}
+else {
+    $cookie = false;
+}
 get_header();
 ?>
-
 <div id="primary" class="content-area">
     <main id="main" class="site-main athena-page" role="main">
 
@@ -67,5 +74,15 @@ get_header();
     </main><!-- #main -->
     
 </div><!-- #primary -->
+
+<?php if( $cookie ): ?>
+<script type="text/javascript">
+(function($){
+    $(window).load(function() {
+        ga('send', 'event', 'referral', 'pageview','<?=$cookie['referral'] ?>');
+    });
+})(jQuery);
+</script>
+<?php endif; ?>
 
 <?php get_footer(); ?>
