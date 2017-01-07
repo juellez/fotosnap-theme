@@ -17,7 +17,11 @@ $zozi_referral_code = get_post_meta($post->ID,'zozi_referral_code',true);
 
     <?php endwhile; ?>
 
-    <p>Book now + save using referral code: <span class="referral-code"><?=$zozi_referral_code ?></span></p>
+    <p><a href="/book"
+        data-track-event-category="referral"
+        data-track-event-action="clicks through referral"
+        data-track-event-label="<?=$zozi_referral_code ?>"
+       class="ga-track">Book now + save</a> using referral code: <span class="referral-code"><?=$zozi_referral_code ?></span></p>
     <div class="character"></div>
     <div class="close"></div>
 </div>
