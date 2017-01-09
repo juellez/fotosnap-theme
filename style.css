@@ -267,6 +267,7 @@ blockquote {
 
 .thumb-card {
   text-align: center;
+  min-height: 280px!important; 
 }
 .thumb-card h4 {
   margin-top: 6px;
