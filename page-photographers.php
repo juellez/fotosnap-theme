@@ -37,23 +37,6 @@ if( is_page() && $post->post_parent > 0 ) {
 
             <div class="row">
                 
-                <div class="col-sm-3">
-                <?php if( $photog ): ?>
-                    <?php if (get_post_thumbnail_id($post->ID)) : ?>
-                            <img src="<?php echo wp_get_attachment_url(get_post_thumbnail_id($post->ID)) ?>" alt="<?php the_title() ?>" 
-                                class="photographer-avatar pull-right">
-                    <?php endif; ?>
-                <?php else: ?>
-                    <br><br>
-                    <small>Love capturing confidence, beauty, smiles and striking profiles? Join our FotoSnap photographers.</small>
-                    <br><br>
-                    <a href="/contact" class="athena-button primary large">Apply</a>
-                <?php endif; ?>
-                </div>
-
-                <div class="col-sm-1">
-                </div>
-
                 <div class="col-sm-8">
                     <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                         <div class="entry-content">
@@ -89,6 +72,20 @@ if( is_page() && $post->post_parent > 0 ) {
                         </footer><!-- .entry-footer -->
 
                     </article><!-- #post-## -->
+                </div>
+
+                <div class="col-sm-3 col-sm-offset-1">
+                <?php if( $photog ): ?>
+                    <?php if (get_post_thumbnail_id($post->ID)) : ?>
+                            <img src="<?php echo wp_get_attachment_url(get_post_thumbnail_id($post->ID)) ?>" alt="<?php the_title() ?>" 
+                                class="photographer-avatar pull-right">
+                    <?php endif; ?>
+                <?php else: ?>
+                    <h3>Join our Team</h3>
+                    <small>Love capturing confidence, beauty, smiles and striking profiles? Join our FotoSnap photographers.</small>
+                    <br><br>
+                    <a href="/contact" class="athena-button primary large">Apply</a>
+                <?php endif; ?>
                 </div>
             </div>
 
