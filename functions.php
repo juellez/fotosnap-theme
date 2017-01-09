@@ -72,6 +72,7 @@ function fs_show_children($status='',$id=0,$colw=3){
         'post_type'   => 'page',
         'post_parent' => $id,
         'orderby'     => 'date DESC',
+        'posts_per_page' => -1
     );
     if( $status ){
         $child_pages_query_args['tax_query'] = array(
