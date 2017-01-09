@@ -98,6 +98,12 @@ body #athena-logo img {
     margin-top: 7px;
 }
 
+@media (max-width: 991px){
+  body #athena-logo img {
+      max-height: 45px;
+  }
+}
+
 body #athena-header.frontpage.sticky .header-inner #athena-logo img {
   padding: 2px 0 5px;
 }
