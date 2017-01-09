@@ -65,6 +65,17 @@ get_header();
 
                 <?php fs_show_venues('active') ?>
 
+                <div class="center">
+                    <br><br>
+                    <small>Want to be the first to know when a new location is added?</small>
+                    <br><br>
+                    <a href="http://eepurl.com/bB6v6j"
+                        data-track-event-category="cta"
+                        data-track-event-action="clicks to join mailing list"
+                        data-track-event-label="Join Now"
+                       class="ga-track athena-button primary large">Join our Mailing List</a>                            
+               </div>
+
                 <br><br>
                 <br><br>
             </div>

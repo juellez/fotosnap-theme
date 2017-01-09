@@ -68,11 +68,12 @@ if( is_page() && $post->post_parent > 0 ) {
 
             <div class="row">
                 
-                <div class="col-sm-4">
+                <div class="col-sm-3">
 
                 <?php if( $venue ):
                     echo '<div class="row venue-gallery">';
                     if( !$active ){
+                        echo '<br><br><small>Typically available weekends before 10am.</small>';
                         echo '<a class="ga-track athena-button primary large"
                                 href="typeform" target="_blank">Request It!</a>';
                         echo '<br><br><small>Typically available weekends before 10am.</small>';
@@ -84,14 +85,24 @@ if( is_page() && $post->post_parent > 0 ) {
                     endforeach;
                     echo '</div>';
                 else: ?>
+                    <small>Want to be the first to know when a new location is added?</small>
+                    <br><br>
+                    <a href="http://eepurl.com/bB6v6j"
+                        data-track-event-category="cta"
+                        data-track-event-action="clicks to join mailing list"
+                        data-track-event-label="Join Now"
+                       class="ga-track athena-button primary large">Get Notified</a>                            
+
                     <br><br>
                     <small>Have a fun venue or location in mind for a pop-up studio?</small>
                     <br><br>
-                    <a href="host" class="athena-button primary large">Learn More</a>
+                    <a href="host" class="athena-button default large">Learn More</a>
+                    <br><br>
+                    <br><br>
                 <?php endif; ?>
                 </div>
 
-                <div class="col-sm-8">
+                <div class="col-sm-8 col-sm-offset-1">
                     <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                         <div class="entry-content">
                             <?php if( $venue ): ?>
@@ -141,5 +152,7 @@ if( is_page() && $post->post_parent > 0 ) {
     </main><!-- #main -->
     
 </div><!-- #primary -->
+
+<script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/signup-forms/popup/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script><script type="text/javascript">require(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us11.list-manage.com","uuid":"d40bd49ac434fceb17a599c6e","lid":"3da796abc2"}) })</script>
 
 <?php get_footer(); ?>

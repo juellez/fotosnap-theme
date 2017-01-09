@@ -200,6 +200,22 @@ get_header();
         <div class="clear"><br><br><br></div>
 
         <div class="row">
+            <div class="homepage-page-content venues center">
+
+                <h2>Save 10% Your Next Photoshoot</h2>
+                <p>Join our mailing list and save.</p>
+                <div class="col-md-12 center">
+                    <br>
+                    <a href="http://eepurl.com/bB6v6j"
+                        data-track-event-category="cta"
+                        data-track-event-action="clicks to join mailing list"
+                        data-track-event-label="Join Now"
+                       class="ga-track athena-button primary large">Join Now</a>                            
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="homepage-page-content col-sm-<?php echo athena_main_width(); ?>">                
                 <h2>Pro Tips</h2>
 
