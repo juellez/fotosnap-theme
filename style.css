@@ -169,8 +169,8 @@ body #athena-jumbotron .hero img{
     -webkit-transition: 0.3s all ease-in-out;
 }
 
-.homepage-page-content .entry-title { font-weight: 400; }
-.homepage-page-content .entry-meta { display: none; }
+.homepage-page-content .entry-title, .blog .entry-title { font-weight: 400; }
+.homepage-page-content .entry-meta, .blog .entry-meta { display: none; }
 
 .homepage-page-content.how-it-works {
   margin: 120px 0 0;
@@ -189,8 +189,12 @@ body #athena-jumbotron .hero img{
 .homepage-page-content .athena-blog-post {
   width: 44%;
 }
+.blog .athena-blog-post {
+  width: 100%; max-width: 600px;
+}
 
-.homepage-page-content h2
+.homepage-page-content h2,
+.blog h2
 {
   text-align: center;
   font-weight: 300;
@@ -198,31 +202,34 @@ body #athena-jumbotron .hero img{
   font-size: 38px;
 }
 
+.blog .post .entry-title,
 .homepage-page-content .post .entry-title {
   font-size: 26px;
   margin: 30px;
+  padding-top: 20px;
 }
 
+.blog .post .continue-reading,
 .homepage-page-content .post .continue-reading {
   text-align: center;
 }
 
+.blog .post .continue-reading .athena-button.primary,
 .homepage-page-content .post .continue-reading .athena-button.primary {
   background: #C8C8C8;
 }
 
-.homepage-page-content
-.more {
+.blog .more,
+.homepage-page-content .more {
     margin-top: 40px;
     border-top: solid 1px #ccc;
 }
-.homepage-page-content
-.more .athena-button.default {
+.blog .more .athena-button.default,
+.homepage-page-content .more .athena-button.default {
     margin-top: -20px;
     background-color: #C8C8C8;
 }
-.homepage-page-content.testimonials
-.client-avatar {
+.homepage-page-content.testimonials .client-avatar {
   width: 75px;
   height: 75px;
   overflow: hidden;

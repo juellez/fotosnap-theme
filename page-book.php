@@ -72,7 +72,7 @@ get_header();
                     <a href="http://eepurl.com/bB6v6j"
                         data-track-event-category="cta"
                         data-track-event-action="clicks to join mailing list"
-                        data-track-event-label="Join Now"
+                        data-track-event-label="Join our Mailing List"
                        class="ga-track athena-button primary large">Join our Mailing List</a>                            
                </div>
 

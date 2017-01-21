@@ -1,27 +1,12 @@
 <?php
 /**
- * Template Name: Photographer
+ * The template for displaying all single posts.
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
+ *
+ * @package Athena
  */
 get_header();
-
-if( is_page() && $post->post_parent > 0 ) { 
-  // post has parents
-  $photog = true;
-
-  /*
-  $children = get_pages('child_of='.$post->ID);
-  if( count( $children ) != 0 ) {
-    // display sidebar-menu layout
-  }
-
-  $parent = get_post_ancestors($post->ID);
-  if( count( $children ) <= 0  && empty($parent[1]) ) {
-    // display full-width layout
-  } elseif ( count( $children ) <= 0  && !empty($parent[1]) )  {
-    // display sidebar-menu layout
-  }
-  */
-}
 ?>
 
 <div id="primary" class="content-area">
@@ -34,8 +19,8 @@ if( is_page() && $post->post_parent > 0 ) {
                 <div class="col-sm-8">
                     <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                         <div class="entry-content">
-                            <?php if( $photog ): ?>
-                                <h1><a href="/photographers/">Photographers</a></h1>
+
+                                <h1><a href="/blog">FotoSnap Pro Tips + Blog</a></h1>
                                 <h2><?php the_title() ?></h2>
 
                                 <?php the_content(); ?>
@@ -45,14 +30,14 @@ if( is_page() && $post->post_parent > 0 ) {
                                     'after' => '</div>',
                                 ));
                                 ?>
-                            <?php else: ?>
-
-                                <h1>Photographers</h1>
-                                <?php // the_content(); ?>
-                                <?php fs_show_children() ?>
-
-                            <?php endif; ?>
                         </div><!-- .entry-content -->
+
+                    <div class="center">
+                      <a href="/book"
+                        data-track-event-category="cta"
+                        data-track-event-action="clicks to book"
+                        data-track-event-label="FotoSnap Your Profile Today!"
+                       class="ga-track athena-button primary large">FotoSnap Your Profile Today!</a></div>
 
                         <footer class="entry-footer">
                             <?php
@@ -69,23 +54,26 @@ if( is_page() && $post->post_parent > 0 ) {
                 </div>
 
                 <div class="col-sm-3 col-sm-offset-1">
-                <?php if( $photog ): ?>
-                    <?php if (get_post_thumbnail_id($post->ID)) : ?>
-                            <img src="<?php echo wp_get_attachment_url(get_post_thumbnail_id($post->ID)) ?>" alt="<?php the_title() ?>" 
-                                class="photographer-avatar pull-right">
-                    <?php endif; ?>
-                <?php else: ?>
-                    <h3>Join our Team</h3>
-                    <small>Love capturing confidence, beauty, smiles and striking profiles? Join our FotoSnap photographers.</small>
                     <br><br>
-                    <a href="/contact"
+                    <h3>Don't Miss Out</h3>
+                    <small>Join our mailing list to discover how you can make your best first impression&mdash;and be the first 
+                      to hear about new pop-up shoots and locations.</small>
+
+                    <br><br>
+
+                    <a href="http://eepurl.com/bB6v6j"
                         data-track-event-category="cta"
-                        data-track-event-action="clicks to join as a photographer"
-                        data-track-event-label="Apply"
-                       class="ga-track athena-button primary large">Apply</a>                            
+                        data-track-event-action="clicks to join mailing list"
+                        data-track-event-label="Join our Mailing List"
+                       class="ga-track athena-button default large">Join our Mailing List</a>  
 
+                    <br><br>
+                    <br><br>
 
-                <?php endif; ?>
+                    <h3>The City is our Studio</h3>
+
+                    <?php fs_show_venues('active',$post->ID,1) ?>
+
                 </div>
             </div>
 

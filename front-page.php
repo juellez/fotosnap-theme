@@ -219,35 +219,16 @@ get_header();
             <div class="homepage-page-content col-sm-<?php echo athena_main_width(); ?>">                
                 <h2>Pro Tips</h2>
 
-                <?php if (have_posts()) : ?>
-
-                    <?php if (is_home() && !is_front_page()) : ?>
-                        <header>
-                            <h1 class="page-title screen-reader-text"><?php single_post_title(); ?></h1>
-                        </header>
-                    <?php endif; ?>
-
-                    <?php $front = get_option('show_on_front'); ?>
-
-                    <?php echo $front == 'posts' ? '<div class="athena-blog-content">' : ''; ?>
-
-                    <?php while (have_posts()) : the_post(); ?>
-
-                        <?php
-                        if ('posts' == get_option('show_on_front')) :
+                    <div class="athena-blog-content">
+                    <?php 
+                        $postsQ = new WP_Query( 'posts_per_page=4' ); 
+                        while ( $postsQ->have_posts() ){
+                            $postsQ->the_post(); 
                             get_template_part('template-parts/content-blog', get_post_format());
-                        else:
-                            get_template_part('template-parts/content-page-home', get_post_format());
-                        endif;
-                        ?>
-
-                    <?php endwhile; ?>
-
-                <?php else : ?>
-
-                    <?php get_template_part('template-parts/content', 'none'); ?>
-
-                <?php endif; ?>
+                        }
+                        wp_reset_postdata();
+                    ?>
+                    </div>
 
             </div>
 
