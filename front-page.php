@@ -219,16 +219,18 @@ get_header();
             <div class="homepage-page-content col-sm-<?php echo athena_main_width(); ?>">                
                 <h2>Pro Tips</h2>
 
-                    <div class="athena-blog-content">
-                    <?php 
-                        $postsQ = new WP_Query( 'posts_per_page=4' ); 
-                        while ( $postsQ->have_posts() ){
-                            $postsQ->the_post(); 
-                            get_template_part('template-parts/content-blog', get_post_format());
-                        }
-                        wp_reset_postdata();
-                    ?>
-                    </div>
+                <div class="athena-blog-content">
+                <?php 
+                    $postsQ = new WP_Query( 'posts_per_page=4' ); 
+                    while ( $postsQ->have_posts() ){
+                        $postsQ->the_post(); 
+                        get_template_part('template-parts/content-blog', get_post_format());
+                    }
+                    wp_reset_postdata();
+                ?>
+                </div>
+
+                <div class="center"><a href="/blog">more pro-tips and stories</a></div>
 
             </div>
 
