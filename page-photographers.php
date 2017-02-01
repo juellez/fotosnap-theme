@@ -47,7 +47,7 @@ if( is_page() && $post->post_parent > 0 ) {
                                 ?>
                             <?php else: ?>
 
-                                <h1>Photographers</h1>
+                                <h1>Our Headshot Photographers</h1>
                                 <?php // the_content(); ?>
                                 <?php fs_show_children() ?>
 
@@ -76,7 +76,7 @@ if( is_page() && $post->post_parent > 0 ) {
                     <?php endif; ?>
                 <?php else: ?>
                     <h3>Join our Team</h3>
-                    <small>Love capturing confidence, beauty, smiles and striking profiles? Join our FotoSnap photographers.</small>
+                    <small>Love capturing confidence, beauty, smiles and striking profiles? Join our FotoSnap photographer team.</small>
                     <br><br>
                     <a href="/contact"
                         data-track-event-category="cta"

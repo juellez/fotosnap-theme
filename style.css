@@ -393,4 +393,7 @@ nav.locations-nav a.previous {
 .zozi-frame {
   width: 100%; height: 500px; position: relative; top: -120px; margin-bottom: -240px;
 }
+.zozi-frame-full {
+  width: 100%; height: 500px; position: relative; margin-bottom: -120px;
+}
 .zozi-frame-wrapper { overflow: hidden; }
