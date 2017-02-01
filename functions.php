@@ -31,7 +31,7 @@ add_filter( 'the_title', 'fs_cap_title', 10, 2 );
 function fs_status_init() {
     register_taxonomy(
         'status',
-        array('page'), // will assign to custom post types when we register them
+        array('page','venue'), // will assign to custom post types when we register them
         array(
             'show_admin_column' => true,
             'label' => __( 'Booking Status' ),
@@ -59,11 +59,7 @@ function fs_status_init() {
 }
 add_action( 'init', 'fs_status_init' );
 
-function fs_show_venues($status='',$colw=3){
-    $post = get_page_by_path('venues', OBJECT, 'page');
-    fs_show_children($status,$post->ID,$colw);
-}
-
+/* used by photographer page (and potentially others) to pull children pages */
 function fs_show_children($status='',$id=0,$colw=3){
 
     global $post;
@@ -182,6 +178,100 @@ function fs_metaBoxReferralSave( $post_id ){
     if( isset($_POST['referrer_name']) ){
         update_post_meta( $post_id, 'referrer_name', trim($_POST['referrer_name']) );
     }
+}
+
+
+/*-------------------------------------------*\
+   Venue Content Type
+\*-------------------------------------------*/
+
+// Custom Post Type
+add_action("init", "fs_register_venue_post_type"); // Add our custom post type
+add_action('init', 'fs_register_venue_menu'); // Add to admin menu
+
+function fs_register_venue_menu()
+{
+    register_nav_menus(array( // Using array to specify more menus if needed
+        'header-menu' => __('Header Menu', 'venue'), // Main Navigation
+        'sidebar-menu' => __('Sidebar Menu', 'venue'), // Sidebar Navigation
+        'extra-menu' => __('Extra Menu', 'venue') // Extra Navigation if needed (duplicate as many as you need!)
+    ));
+}
+function fs_register_venue_post_type() {
+    register_post_type( "venue",
+        array(
+            "labels" => array(
+                "name" => __( "Venues" ),
+                "singular_name" => __( "Venue" ),
+                "add_new" => __( "Add New" ),
+                "add_new_item" => __( "Add New Venue" ),
+                "edit" => __( "Edit" ),
+                "edit_item" => __( "Edit Venue" ),
+                "new_item" => __( "New Venue" ),
+                "view" => __( "View Venues" ),
+                "view_item" => __( "View Venue" ),
+                "search_items" => __( "Search Venues" ),
+                "not_found" => __( "No Venues Found" ),
+                "not_found_in_trash" => __( "No Venues Found in trash" ),
+                "parent" => __( "Venue" ),
+            ),
+            "rewrite" => array(
+                "slug" => "venues",
+                "with_front" => true,
+                "pages" => true,
+                ),
+            'description' => 'Venues setup in Zozi for booking.',
+            'public' => true,
+            'exclude_from_search' => false,
+            'publicly_queryable' => true,
+            'show_ui' => true,
+            'menu_position' => 5,
+            'menu_icon' => 'dashicons-star-empty',
+            'capability_type' => 'page',
+            "has_archive" => false,
+            "supports" => array( "title", "editor", "revisions","thumbnail"),
+            'can_export' => true,
+            )
+        );
+}
+
+function fs_show_venues($status='',$colw=3){
+    global $post;
+    $id = $post->ID;
+
+    $child_pages_query_args = array(
+        'post_type'   => 'venue',
+        'orderby'     => 'date DESC',
+        'posts_per_page' => -1
+    );
+    if( $status ){
+        $child_pages_query_args['tax_query'] = array(
+            array(
+                'taxonomy' => 'status',
+                'field' => 'slug',
+                'terms' => array ($status)
+            )
+        );
+    }
+     
+    $child_pages = new WP_Query( $child_pages_query_args );
+
+    while ( $child_pages->have_posts() ) : $child_pages->the_post();
+       if( $post->post_name != 'host' && $post->post_name != 'apply' ):
+           echo '<div class="col-xs-6 col-sm-'.$colw.' thumb-card">';
+           echo '<a href="';
+           the_permalink();
+           echo '">';
+           the_post_thumbnail('thumbnail'); //lists thumbnails
+           echo '</a>';
+           echo '<br><h4><a href="';
+           the_permalink();
+           echo '">';
+           the_title(); // shows titles
+           echo '</a></h4></div>';
+       endif;
+    endwhile;
+    wp_reset_postdata(); //remember to reset data
 }
 
 /* --------------------
