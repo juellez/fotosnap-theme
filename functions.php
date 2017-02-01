@@ -325,7 +325,7 @@ function fs_show_related_photogs_venues($type,$colw=3) {
     if( $ids ){
         $child_pages = new WP_Query(array(
             'post_type'         => $type,
-            'posts_per_page'    => 3,
+            'posts_per_page'    => 8,
             'post__in'          => $ids,
             'post_status'       => 'any',
             'orderby'           => 'post__in',
