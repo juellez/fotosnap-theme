@@ -8,6 +8,8 @@ $zozi_id = get_post_meta( $post->ID, 'zozi_product_id', true ) + 0;
 $attributes = get_post_meta( $post->ID, 'photogenic_attributes', true );
 $active = has_term( 'active', 'status', $post );
 $address = get_geocode_address( $post->ID );
+$website = get_post_meta( $post->ID, 'website_url', true );
+$mapurl = "https://www.google.com/maps?q=".urlencode($address);
 
 // @todo load iFrame faster
 // e.g. http://www.aaronpeters.nl/blog/iframe-loading-techniques-performance?%3E
@@ -28,7 +30,19 @@ $address = get_geocode_address( $post->ID );
                             <h1 class="entry-title">
                                 <?php the_title() ?>
                             </h1>
-                            <h2 class="entry-address"><?=$address ?></h2>
+                            <h2 class="entry-address">
+                                <a href="<?=$mapurl ?>" title="<?php the_title() ?> map and directions"
+                                    target="_blank"
+                                    data-track-event-category="venue meta" 
+                                    data-track-event-action="clicks to view map/directions">  
+                                        <?=$address ?></a>
+                                <?php if( $website ): ?>
+                                    | <a href="<?=$website ?>" title="<?php the_title() ?> website"
+                                    target="_blank"
+                                    data-track-event-category="venue meta" 
+                                    data-track-event-action="clicks to view website" 
+                                    data-track-event-label="<?=$website ?>">website</a>
+                                <?php endif; ?></h2>
                         </header>
 
                         <?php
@@ -52,10 +66,11 @@ $address = get_geocode_address( $post->ID );
                             $cta_label = get_post_meta( $post->ID, 'cta_label', true );
                             if( $cta_url && $cta_label ): ?>
                             <div class="center">
-                                <a class="ga-track athena-button primary large" href="<?=$cta_url ?>" data-track-event-category="header cta" 
-                            data-track-event-action="<?=$cta_track_action ?>" 
-                            data-track-event-label="<?=$cta_label ?>" 
-                            title="<?=$cta_label ?>"><?=$cta_label ?></a>
+                                <a class="ga-track athena-button primary large" href="<?=$cta_url ?>" 
+                                data-track-event-category="header cta" 
+                                data-track-event-action="<?=$cta_track_action ?>" 
+                                data-track-event-label="<?=$cta_label ?>" 
+                                title="<?=$cta_label ?>"><?=$cta_label ?></a>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -140,6 +155,12 @@ $address = get_geocode_address( $post->ID );
                         }
                     ?>
                 </div>
+                <?php if( $active ): // output "extra" content here in case iframe doesn't load and for seo ?>
+                <div class="col-sm-12">
+                <h3>More about this location</h3>
+                    <?php the_content() ?>
+                </div>
+                <?php endif; ?>
             </div>
 
 
