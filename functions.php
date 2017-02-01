@@ -31,7 +31,7 @@ add_filter( 'the_title', 'fs_cap_title', 10, 2 );
 function fs_status_init() {
     register_taxonomy(
         'status',
-        array('page','venue'), // will assign to custom post types when we register them
+        array('photographer','venue'), // will assign to custom post types when we register them
         array(
             'show_admin_column' => true,
             'label' => __( 'Booking Status' ),
@@ -58,49 +58,6 @@ function fs_status_init() {
     );
 }
 add_action( 'init', 'fs_status_init' );
-
-/* used by photographer page (and potentially others) to pull children pages */
-function fs_show_children($status='',$id=0,$colw=3){
-
-    global $post;
-    if( !$id ) $id = $post->ID;
-    $child_pages_query_args = array(
-        'post_type'   => 'page',
-        'post_parent' => $id,
-        'orderby'     => 'date DESC',
-        'posts_per_page' => -1
-    );
-    if( $status ){
-        $child_pages_query_args['tax_query'] = array(
-            array(
-                'taxonomy' => 'status',
-                'field' => 'slug',
-                'terms' => array ($status)
-            )
-        );
-    }
-     
-    $child_pages = new WP_Query( $child_pages_query_args );
-
-    while ( $child_pages->have_posts() ) : $child_pages->the_post();
-       if( $post->post_name != 'host' && $post->post_name != 'apply' ):
-           echo '<div class="col-xs-6 col-sm-'.$colw.' thumb-card">';
-           echo '<a href="';
-           the_permalink();
-           echo '">';
-           the_post_thumbnail('thumbnail'); //lists thumbnails
-           echo '</a>';
-           echo '<br><h4><a href="';
-           the_permalink();
-           echo '">';
-           the_title(); // shows titles
-           echo '</a></h4></div>';
-       endif;
-    endwhile;
-    wp_reset_postdata(); //remember to reset data
-}
-add_shortcode('show_child_pages', 'fs_show_children');
-
 
 /*-------------------------------------------*\
    Referral Codes + Tracking
@@ -182,6 +139,104 @@ function fs_metaBoxReferralSave( $post_id ){
 
 
 /*-------------------------------------------*\
+   Photographer Content Type
+\*-------------------------------------------*/
+
+// Custom Post Type
+add_action("init", "fs_register_photographer_post_type"); // Add our custom post type
+add_action('init', 'fs_register_photographer_menu'); // Add to admin menu
+
+function fs_register_photographer_menu()
+{
+    register_nav_menus(array( // Using array to specify more menus if needed
+        'header-menu' => __('Header Menu', 'photographer'), // Main Navigation
+        'sidebar-menu' => __('Sidebar Menu', 'photographer'), // Sidebar Navigation
+        'extra-menu' => __('Extra Menu', 'photographer') // Extra Navigation if needed (duplicate as many as you need!)
+    ));
+}
+function fs_register_photographer_post_type() {
+    register_post_type( "photographer",
+        array(
+            "labels" => array(
+                "name" => __( "Photographers" ),
+                "singular_name" => __( "Photographer" ),
+                "add_new" => __( "Add New" ),
+                "add_new_item" => __( "Add New Photographer" ),
+                "edit" => __( "Edit" ),
+                "edit_item" => __( "Edit Photographer" ),
+                "new_item" => __( "New Photographer" ),
+                "view" => __( "View Photographers" ),
+                "view_item" => __( "View Photographer" ),
+                "search_items" => __( "Search Photographers" ),
+                "not_found" => __( "No Photographers Found" ),
+                "not_found_in_trash" => __( "No Photographers Found in trash" ),
+                "parent" => __( "Photographer" ),
+            ),
+            "rewrite" => array(
+                "slug" => "photographers",
+                "with_front" => true,
+                "pages" => true,
+                ),
+            'description' => 'Photographers setup in Zozi for booking.',
+            'public' => true,
+            'exclude_from_search' => false,
+            'publicly_queryable' => true,
+            'show_ui' => true,
+            'menu_position' => 5,
+            'menu_icon' => 'dashicons-star-empty',
+            'capability_type' => 'post',
+            "has_archive" => false,
+            "supports" => array( "title", "editor", "revisions","thumbnail"),
+            'can_export' => true,
+            )
+        );
+}
+
+function fs_show_child_pages($child_pages,$colw=3){
+
+    while ( $child_pages->have_posts() ) : $child_pages->the_post();
+       if( $post->post_name != 'host' && $post->post_name != 'apply' ):
+           echo '<div class="col-xs-6 col-sm-'.$colw.' thumb-card">';
+           echo '<a href="';
+           the_permalink();
+           echo '">';
+           the_post_thumbnail('thumbnail'); //lists thumbnails
+           echo '</a>';
+           echo '<br><h4><a href="';
+           the_permalink();
+           echo '">';
+           the_title(); // shows titles
+           echo '</a></h4></div>';
+       endif;
+    endwhile;
+
+}
+
+function fs_show_photographers($status='',$colw=3){
+    global $post;
+    $id = $post->ID;
+
+    $child_pages_query_args = array(
+        'post_type'   => 'photographer',
+        'orderby'     => 'date DESC',
+        'posts_per_page' => -1
+    );
+    if( $status ){
+        $child_pages_query_args['tax_query'] = array(
+            array(
+                'taxonomy' => 'status',
+                'field' => 'slug',
+                'terms' => array ($status)
+            )
+        );
+    }
+     
+    $child_pages = new WP_Query( $child_pages_query_args );
+    fs_show_child_pages($child_pages,$colw);
+    wp_reset_postdata(); //remember to reset data
+}
+
+/*-------------------------------------------*\
    Venue Content Type
 \*-------------------------------------------*/
 
@@ -227,7 +282,7 @@ function fs_register_venue_post_type() {
             'show_ui' => true,
             'menu_position' => 5,
             'menu_icon' => 'dashicons-star-empty',
-            'capability_type' => 'page',
+            'capability_type' => 'post',
             "has_archive" => false,
             "supports" => array( "title", "editor", "revisions","thumbnail"),
             'can_export' => true,
@@ -255,24 +310,31 @@ function fs_show_venues($status='',$colw=3){
     }
      
     $child_pages = new WP_Query( $child_pages_query_args );
-
-    while ( $child_pages->have_posts() ) : $child_pages->the_post();
-       if( $post->post_name != 'host' && $post->post_name != 'apply' ):
-           echo '<div class="col-xs-6 col-sm-'.$colw.' thumb-card">';
-           echo '<a href="';
-           the_permalink();
-           echo '">';
-           the_post_thumbnail('thumbnail'); //lists thumbnails
-           echo '</a>';
-           echo '<br><h4><a href="';
-           the_permalink();
-           echo '">';
-           the_title(); // shows titles
-           echo '</a></h4></div>';
-       endif;
-    endwhile;
+    fs_show_child_pages($child_pages,$colw);
     wp_reset_postdata(); //remember to reset data
 }
+
+/* --------------------
+    get related photographer / venue
+    currently sites on top of custom fields "relationship" type
+----------------------- */
+
+function fs_show_related_photogs_venues($type,$colw=3) {
+    global $post; 
+    $ids = get_field('photog_venue_match', $post->ID, false);
+    if( $ids ){
+        $child_pages = new WP_Query(array(
+            'post_type'         => $type,
+            'posts_per_page'    => 3,
+            'post__in'          => $ids,
+            'post_status'       => 'any',
+            'orderby'           => 'post__in',
+        ));
+        fs_show_child_pages($child_pages,$colw);
+        wp_reset_postdata(); //remember to reset data
+    }
+}
+
 
 /* --------------------
    athena (parent theme)

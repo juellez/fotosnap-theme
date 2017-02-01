@@ -11,6 +11,9 @@ else {
     $cookie = false;
 }
 get_header();
+
+// @todo load iFrame faster
+// e.g. http://www.aaronpeters.nl/blog/iframe-loading-techniques-performance?%3E
 ?>
 <div id="primary" class="content-area">
     <main id="main" class="site-main athena-page" role="main">

@@ -49,23 +49,11 @@ if( is_page() && $post->post_parent > 0 ) {
 
                                 <h1>Our Headshot Photographers</h1>
                                 <?php // the_content(); ?>
-                                <?php fs_show_children() ?>
+                                <?php fs_show_photographers() ?>
 
                             <?php endif; ?>
-                        </div><!-- .entry-content -->
-
-                        <footer class="entry-footer">
-                            <?php
-                            edit_post_link(
-                                    sprintf(
-                                            /* translators: %s: Name of current post */
-                                            esc_html__('Edit %s', 'athena'), the_title('<span class="screen-reader-text">"', '"</span>', false)
-                                    ), '<span class="edit-link">', '</span>'
-                            );
-                            ?>
-                        </footer><!-- .entry-footer -->
-
-                    </article><!-- #post-## -->
+                        </div>
+                    </article>
                 </div>
 
                 <div class="col-sm-3 col-sm-offset-1">

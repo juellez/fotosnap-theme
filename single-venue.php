@@ -8,6 +8,9 @@ $zozi_id = get_post_meta( $post->ID, 'zozi_product_id', true ) + 0;
 $attributes = get_post_meta( $post->ID, 'photogenic_attributes', true );
 $active = has_term( 'active', 'status', $post );
 $address = get_geocode_address( $post->ID );
+
+// @todo load iFrame faster
+// e.g. http://www.aaronpeters.nl/blog/iframe-loading-techniques-performance?%3E
 ?>
 
 <div id="primary" class="content-area">
@@ -26,9 +29,6 @@ $address = get_geocode_address( $post->ID );
                                 <?php the_title() ?>
                             </h1>
                             <h2 class="entry-address"><?=$address ?></h2>
-                            <?php if( $active && $zozi_id ): ?>
-                              <?php the_content(); ?>
-                            <?php endif; ?>
                         </header>
 
                         <?php
@@ -72,7 +72,7 @@ $address = get_geocode_address( $post->ID );
 
                           <div class="zozi-frame-wrapper">
 
-                            <iframe data-src="https://a.zozi.com/#/embed/fotosnapor/products/<?= $zozi_id ?>?embedOptions=%7B%22merchantCode%22%3A%22fotosnapor%22%2C%22view%22%3A%22month%22%2C%22productIDs%22%3A%22%22%2C%22capacityDisplay%22%3A%22text%22%2C%22capacityText%22%3A%22BOOK%22%2C%22soldOutDisplay%22%3A%22text%22%2C%22soldOutText%22%3A%22Sold%20Out%22%2C%22includeName%22%3Anull%2C%22pastDatesBehavior%22%3A%22hide%22%2C%22allowAddonsPriceRollup%22%3A%22true%22%2C%22availabilityView%22%3A%22first%22%2C%22modalButtonText%22%3A%22Open%20Calendar%22%2C%22listButtonText%22%3A%22Book%20Now%22%2C%22buttonTextColor%22%3A%22%23FFFFFF%22%2C%22iconColor%22%3A%22%23000000%22%2C%22checkoutButtonColor%22%3A%22%23F0722C%22%2C%22accentColor%22%3A%22%23f37521%22%2C%22allowLocationHashControl%22%3A%22true%22%2C%22productContent%22%3A%22show%22%2C%22showProductsPage%22%3A%22hide%22%2C%22defaultOpenView%22%3A%22app.embed.merchant.calendarWidget%22%2C%22addonsPage%22%3A%22show%22%2C%22buttonBackground%22%3A%22%23FF8200%22%2C%22lowerMaxQuantitySelectableLimit%22%3A1000%2C%22upperMaxQuantitySelectableLimit%22%3A10000%7D" data-allow-hashchange="true" frameborder="0" id="zozi-embedded-checkout" scrolling="no" seamless="seamless" class="zozi-frame"></iframe><script src="https://a.zozi.com/assets/widgets/embedded.origin.js"></script>
+                            <iframe data-src="https://a.zozi.com/#/embed/fotosnapor/products/<?= $zozi_id ?>?embedOptions=%7B%22merchantCode%22%3A%22fotosnapor%22%2C%22view%22%3A%22month%22%2C%22productIDs%22%3A%22%22%2C%22capacityDisplay%22%3A%22text%22%2C%22capacityText%22%3A%22BOOK%22%2C%22soldOutDisplay%22%3A%22text%22%2C%22soldOutText%22%3A%22Sold%20Out%22%2C%22includeName%22%3Anull%2C%22pastDatesBehavior%22%3A%22hide%22%2C%22allowAddonsPriceRollup%22%3A%22true%22%2C%22availabilityView%22%3A%22first%22%2C%22modalButtonText%22%3A%22Open%20Calendar%22%2C%22listButtonText%22%3A%22Book%20Now%22%2C%22buttonTextColor%22%3A%22%23FFFFFF%22%2C%22iconColor%22%3A%22%23000000%22%2C%22checkoutButtonColor%22%3A%22%23F0722C%22%2C%22accentColor%22%3A%22%23f37521%22%2C%22allowLocationHashControl%22%3A%22true%22%2C%22productContent%22%3A%22show%22%2C%22showProductsPage%22%3A%22hide%22%2C%22defaultOpenView%22%3A%22app.embed.merchant.calendarWidget%22%2C%22addonsPage%22%3A%22show%22%2C%22buttonBackground%22%3A%22%23FF8200%22%2C%22lowerMaxQuantitySelectableLimit%22%3A1000%2C%22upperMaxQuantitySelectableLimit%22%3A10000%7D" data-allow-hashchange="true" frameborder="0" id="zozi-embedded-checkout" scrolling="no" seamless="seamless" class="zozi-frame"><?php the_content(); ?></iframe><script src="https://a.zozi.com/assets/widgets/embedded.origin.js"></script>
                           </div>
 
                         </div>
@@ -80,26 +80,32 @@ $address = get_geocode_address( $post->ID );
                     </div>
                 <?php else: // inactive place -- display some stuff ?>
                     <div class="col-sm-3">
-                    <?php 
-                        echo '<div class="row venue-gallery">';
-                        if( !$active ){
-                            echo '<br><br><small></small>';
-                            echo '<a class="ga-track athena-button primary large"
-                                    href="typeform" target="_blank">Request It!</a>';
-                        }
-                        $media = get_attached_media( 'image' );
-                        foreach($media as $img):
-                            $url = wp_get_attachment_image_src($img->ID,'thumbnail');
-                            echo '<div class="col-xs-6"><img src="'.$url[0].'" /></div>';
-                        endforeach;
-                        echo '</div>';
-                    ?>
+                        <div class="row venue-gallery">
+                            <?php
+                                $media = get_attached_media( 'image' );
+                                foreach($media as $img):
+                                    $url = wp_get_attachment_image_src($img->ID,'thumbnail');
+                                    echo '<div class="col-xs-6"><img src="'.$url[0].'" /></div>';
+                                endforeach;
+                            ?>
+                        </div>
                     </div>
                     <div class="col-sm-8 col-sm-offset-1">
                         <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                             <div class="entry-content">
 
                                     <?php the_content(); ?>
+
+                                    <br><br>
+
+                                    <?php if( $post->post_type == 'venue' && !$active ): ?>
+                                        <br><br><small></small>
+                                        <a href="/host" 
+                                            data-track-event-category="cta"
+                                            data-track-event-action="clicks to host/request"
+                                            data-track-event-label="Request this spot"
+                                            class="athena-button primary large">Request this spot.</a>
+                                    <?php endif; ?>
 
                             </div>
                         </article>
@@ -120,6 +126,19 @@ $address = get_geocode_address( $post->ID );
                             If Mother Nature doesn't cooperate, we'll reschedule your session or issue a refund.
                         </div>
                     <?php endif; ?>
+
+                    <br>
+                    <br>
+                    <?php 
+                        ob_start(); 
+                        fs_show_related_photogs_venues('photographer');
+                        $output = ob_get_contents();
+                        ob_end_clean();
+                        if( $output ){
+                            echo '<h3>Photographers who\'ve shot at this location.</h3>';
+                            echo $output;
+                        }
+                    ?>
                 </div>
             </div>
 

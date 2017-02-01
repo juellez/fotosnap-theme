@@ -57,7 +57,11 @@ get_header();
                     <br><br>
                     <small>Have a fun venue or location in mind for a pop-up studio?</small>
                     <br><br>
-                    <a href="host" class="athena-button default large">Learn More</a>
+                    <a href="/host" 
+                        data-track-event-category="cta"
+                        data-track-event-action="clicks to host/request"
+                        data-track-event-label="Learn More"
+                        class="athena-button default large">Learn More</a>
                     <br><br>
                     <br><br>
 
