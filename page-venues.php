@@ -10,8 +10,9 @@ get_header();
 
         <?php while (have_posts()) : the_post(); ?>
 
-            <?php if (get_post_thumbnail_id($post->ID)) : ?>
-                <div id="athena-page-jumbotron" class="parallax-window" data-parallax="scroll" data-image-src="<?php echo wp_get_attachment_url(get_post_thumbnail_id($post->ID)) ?>">
+            <?php if ($thmbid = get_post_thumbnail_id($post->ID)) : ?>
+                <div id="athena-page-jumbotron" class="parallax-window" data-parallax="scroll" 
+                    data-image-src="<?php echo wp_get_attachment_image_src($thmbid, array(1200,800,true))[0] ?>">
                     <div class="dark-overlay"></div>
                     <div class="dark-overlay-text">
 

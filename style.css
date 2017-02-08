@@ -411,6 +411,8 @@ nav.locations-nav a.previous {
   body #athena-jumbotron h2.header-text { font-size: 30px; padding-top: 20px; }
   body #athena-jumbotron .overlay { bottom: 60px; top: auto; }
   body .athena-button.large { font-size: 16px; }
+  body #main.athena-page { padding: 30px 10px 0; }
+  body #main.athena-page #athena-page-jumbotron { margin-left: -10px; width: 110%; }
   #referral-layer h1 { font-size: 18px; letter-spacing: 0; }
 }
 
