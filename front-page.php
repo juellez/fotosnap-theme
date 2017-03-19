@@ -149,7 +149,7 @@ get_header();
                 </div>
 
                 <div class="col-md-4">
-                  <span class="client-avatar pull-left"><img class="alignnone size-medium wp-image-698" src="http://fs.wanderlustpdx.com/wp-content/uploads/2017/01/chris-umbrella-cropped-150x150.jpg" alt="" width="300" height="300"></span>
+                  <span class="client-avatar pull-left"><img class="alignnone size-medium wp-image-698" src="wp-content/uploads/2017/01/chris-umbrella-cropped-150x150.jpg" alt="" width="300" height="300"></span>
                   <blockquote>"I only wish I would have done this sooner! My online dating activity has nearly doubled."</blockquote>
                   <span class="client">&mdash; Chris L</span>
                 </div>
