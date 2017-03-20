@@ -1,0 +1,549 @@
+{
+    "page": [
+        {
+            "columns": {
+                "title": {
+                    "column-name": "title",
+                    "type": "title",
+                    "clone": "",
+                    "label": "Title",
+                    "width": "",
+                    "width_unit": "%"
+                },
+                "taxonomy-status": {
+                    "column-name": "taxonomy-status",
+                    "type": "taxonomy-status",
+                    "clone": "",
+                    "label": "Status",
+                    "width": "",
+                    "width_unit": "%"
+                },
+                "column-page_template": {
+                    "column-name": "column-page_template",
+                    "type": "column-page_template",
+                    "clone": "",
+                    "label": "Template\/Type",
+                    "width": "",
+                    "width_unit": "%"
+                },
+                "comments": {
+                    "column-name": "comments",
+                    "type": "comments",
+                    "clone": "",
+                    "label": "<span class=\"vers comment-grey-bubble\" title=\"Comments\"><span class=\"screen-reader-text\">Comments<\/span><\/span>",
+                    "width": "",
+                    "width_unit": "%"
+                },
+                "date": {
+                    "column-name": "date",
+                    "type": "date",
+                    "clone": "",
+                    "label": "Date",
+                    "width": "10",
+                    "width_unit": "%"
+                },
+                "gadwp_stats": {
+                    "column-name": "gadwp_stats",
+                    "type": "gadwp_stats",
+                    "clone": "",
+                    "label": "Analytics",
+                    "width": "",
+                    "width_unit": "%"
+                }
+            }
+        }
+    ],
+    "ngg_order": [
+        {
+            "columns": {
+                "date": {
+                    "column-name": "date",
+                    "type": "date",
+                    "clone": "",
+                    "label": "Date",
+                    "width": "10",
+                    "width_unit": "%",
+                    "edit": "off",
+                    "filter": "on",
+                    "sort": "on"
+                },
+                "expirationdate": {
+                    "column-name": "expirationdate",
+                    "type": "expirationdate",
+                    "clone": "",
+                    "label": "Expires",
+                    "width": "",
+                    "width_unit": "%"
+                },
+                "order_hash": {
+                    "column-name": "order_hash",
+                    "type": "order_hash",
+                    "clone": "",
+                    "label": "ID",
+                    "width": "",
+                    "width_unit": "%"
+                },
+                "order_customer": {
+                    "column-name": "order_customer",
+                    "type": "order_customer",
+                    "clone": "",
+                    "label": "Customer",
+                    "width": "",
+                    "width_unit": "%"
+                },
+                "order_status": {
+                    "column-name": "order_status",
+                    "type": "order_status",
+                    "clone": "",
+                    "label": "Order Status",
+                    "width": "",
+                    "width_unit": "%",
+                    "edit": "off",
+                    "sort": "off"
+                },
+                "order_gateway": {
+                    "column-name": "order_gateway",
+                    "type": "order_gateway",
+                    "clone": "",
+                    "label": "Payment Gateway",
+                    "width": "",
+                    "width_unit": "%"
+                },
+                "order_coupon": {
+                    "column-name": "order_coupon",
+                    "type": "order_coupon",
+                    "clone": "",
+                    "label": "Coupon",
+                    "width": "",
+                    "width_unit": "%"
+                },
+                "order_total": {
+                    "column-name": "order_total",
+                    "type": "order_total",
+                    "clone": "",
+                    "label": "Total",
+                    "width": "",
+                    "width_unit": "%",
+                    "sort": "on"
+                },
+                "order_images": {
+                    "column-name": "order_images",
+                    "type": "order_images",
+                    "clone": "",
+                    "label": "#",
+                    "width": "",
+                    "width_unit": "%"
+                },
+                "order_image_thumbs": {
+                    "column-name": "order_image_thumbs",
+                    "type": "order_image_thumbs",
+                    "clone": "",
+                    "label": "Thumbnails",
+                    "width": "",
+                    "width_unit": "%"
+                }
+            }
+        }
+    ],
+    "ngg_coupon": [
+        {
+            "columns": {
+                "title": {
+                    "column-name": "title",
+                    "type": "title",
+                    "clone": "",
+                    "label": "Title",
+                    "width": "",
+                    "width_unit": "%",
+                    "edit": "off",
+                    "sort": "on"
+                },
+                "order_count": {
+                    "column-name": "order_count",
+                    "type": "order_count",
+                    "clone": "",
+                    "label": "Times Used",
+                    "width": "",
+                    "width_unit": "%"
+                },
+                "date": {
+                    "column-name": "date",
+                    "type": "date",
+                    "clone": "",
+                    "label": "Date",
+                    "width": "10",
+                    "width_unit": "%",
+                    "edit": "off",
+                    "filter": "off",
+                    "sort": "on"
+                },
+                "column-meta": {
+                    "column-name": "column-meta",
+                    "type": "column-meta",
+                    "clone": "",
+                    "label": "Amount",
+                    "width": "",
+                    "width_unit": "%",
+                    "field": "discount_amount",
+                    "field_type": "numeric",
+                    "before": "",
+                    "after": "",
+                    "filter": "on",
+                    "filter_format": "",
+                    "sort": "on",
+                    "date_format": "F j, Y"
+                },
+                "column-meta-1": {
+                    "column-name": "column-meta-1",
+                    "type": "column-meta",
+                    "clone": "1",
+                    "label": "Type",
+                    "width": "",
+                    "width_unit": "%",
+                    "field": "discount_type",
+                    "field_type": "",
+                    "before": "",
+                    "after": "",
+                    "filter": "on",
+                    "sort": "on",
+                    "date_format": "F j, Y"
+                }
+            }
+        }
+    ],
+    "shoot": [
+        {
+            "columns": {
+                "title": {
+                    "column-name": "title",
+                    "type": "title",
+                    "clone": "",
+                    "label": "Title",
+                    "width": "",
+                    "width_unit": "%",
+                    "edit": "off",
+                    "sort": "on"
+                },
+                "date": {
+                    "column-name": "date",
+                    "type": "date",
+                    "clone": "",
+                    "label": "Date",
+                    "width": "10",
+                    "width_unit": "%",
+                    "edit": "off",
+                    "filter": "on",
+                    "sort": "on"
+                },
+                "column-meta-1": {
+                    "column-name": "column-meta-1",
+                    "type": "column-meta",
+                    "clone": "1",
+                    "label": "Photographer",
+                    "width": "",
+                    "width_unit": "%",
+                    "field": "photographer_user",
+                    "field_type": "user_by_id",
+                    "before": "",
+                    "after": "",
+                    "filter": "on",
+                    "sort": "on",
+                    "date_format": "F j, Y"
+                },
+                "column-meta-2": {
+                    "column-name": "column-meta-2",
+                    "type": "column-meta",
+                    "clone": "2",
+                    "label": "Venue",
+                    "width": "",
+                    "width_unit": "%",
+                    "field": "venue",
+                    "field_type": "title_by_id",
+                    "before": "",
+                    "after": "",
+                    "filter": "on",
+                    "sort": "on",
+                    "date_format": "F j, Y"
+                },
+                "attached_gallery": {
+                    "column-name": "attached_gallery",
+                    "type": "attached_gallery",
+                    "clone": "",
+                    "label": "Photo Gallery \/ Password",
+                    "width": "",
+                    "width_unit": "%"
+                },
+                "fs_send_email": {
+                    "column-name": "fs_send_email",
+                    "type": "fs_send_email",
+                    "clone": "",
+                    "label": "Send Customer Email",
+                    "width": "",
+                    "width_unit": "%"
+                }
+            }
+        }
+    ],
+    "photographer": [
+        {
+            "columns": {
+                "column-featured_image": {
+                    "column-name": "column-featured_image",
+                    "type": "column-featured_image",
+                    "clone": "",
+                    "label": "Featured Image",
+                    "width": "",
+                    "width_unit": "%",
+                    "image_size": "thumbnail",
+                    "image_size_w": "80",
+                    "image_size_h": "80",
+                    "edit": "off",
+                    "filter": "off",
+                    "sort": "off"
+                },
+                "title": {
+                    "column-name": "title",
+                    "type": "title",
+                    "clone": "",
+                    "label": "Title",
+                    "width": "",
+                    "width_unit": "%",
+                    "edit": "off",
+                    "sort": "on"
+                },
+                "taxonomy-status": {
+                    "column-name": "taxonomy-status",
+                    "type": "taxonomy-status",
+                    "clone": "",
+                    "label": "Status",
+                    "width": "",
+                    "width_unit": "%"
+                },
+                "column-meta": {
+                    "column-name": "column-meta",
+                    "type": "column-meta",
+                    "clone": "",
+                    "label": "Favorite Venues",
+                    "width": "",
+                    "width_unit": "%",
+                    "field": "slide_template",
+                    "field_type": "title_by_id",
+                    "before": "",
+                    "after": "",
+                    "filter": "on",
+                    "sort": "on",
+                    "date_format": "F j, Y"
+                },
+                "gadwp_stats": {
+                    "column-name": "gadwp_stats",
+                    "type": "gadwp_stats",
+                    "clone": "",
+                    "label": "Analytics",
+                    "width": "",
+                    "width_unit": "%"
+                }
+            },
+            "layout": {
+                "id": "5891b7aa80e6c",
+                "name": "Imported",
+                "roles": "",
+                "users": ""
+            }
+        }
+    ],
+    "venue": [
+        {
+            "columns": {
+                "column-featured_image": {
+                    "column-name": "column-featured_image",
+                    "type": "column-featured_image",
+                    "clone": "",
+                    "label": "Featured Image",
+                    "width": "",
+                    "width_unit": "%",
+                    "image_size": "thumbnail",
+                    "image_size_w": "80",
+                    "image_size_h": "80",
+                    "edit": "off",
+                    "filter": "off",
+                    "sort": "off"
+                },
+                "title": {
+                    "column-name": "title",
+                    "type": "title",
+                    "clone": "",
+                    "label": "Title",
+                    "width": "",
+                    "width_unit": "%",
+                    "edit": "off",
+                    "sort": "on"
+                },
+                "column-meta": {
+                    "column-name": "column-meta",
+                    "type": "column-meta",
+                    "clone": "",
+                    "label": "Zozi ID",
+                    "width": "",
+                    "width_unit": "%",
+                    "field": "zozi_product_id",
+                    "field_type": "",
+                    "before": "",
+                    "after": "",
+                    "filter": "off",
+                    "sort": "off",
+                    "date_format": "F j, Y"
+                },
+                "taxonomy-status": {
+                    "column-name": "taxonomy-status",
+                    "type": "taxonomy-status",
+                    "clone": "",
+                    "label": "Status",
+                    "width": "",
+                    "width_unit": "%"
+                },
+                "column-meta-2": {
+                    "column-name": "column-meta-2",
+                    "type": "column-meta",
+                    "clone": "2",
+                    "label": "Attributes",
+                    "width": "",
+                    "width_unit": "%",
+                    "field": "photogenic_attributes",
+                    "field_type": "",
+                    "before": "",
+                    "after": "",
+                    "filter": "on",
+                    "sort": "on",
+                    "date_format": "F j, Y"
+                },
+                "column-meta-1": {
+                    "column-name": "column-meta-1",
+                    "type": "column-meta",
+                    "clone": "1",
+                    "label": "Address",
+                    "width": "",
+                    "width_unit": "%",
+                    "field": "martygeocoderaddress",
+                    "field_type": "",
+                    "before": "",
+                    "after": "",
+                    "filter": "off",
+                    "sort": "off",
+                    "date_format": "F j, Y"
+                },
+                "column-meta-3": {
+                    "column-name": "column-meta-3",
+                    "type": "column-meta",
+                    "clone": "3",
+                    "label": "Photographers",
+                    "width": "",
+                    "width_unit": "%",
+                    "field": "booking_contact_email",
+                    "field_type": "title_by_id",
+                    "before": "",
+                    "after": "",
+                    "filter": "on",
+                    "sort": "on",
+                    "date_format": "F j, Y"
+                },
+                "gadwp_stats": {
+                    "column-name": "gadwp_stats",
+                    "type": "gadwp_stats",
+                    "clone": "",
+                    "label": "Analytics",
+                    "width": "",
+                    "width_unit": "%"
+                }
+            },
+            "layout": {
+                "id": "5891b7aa9aca9",
+                "name": "Imported",
+                "roles": "",
+                "users": ""
+            }
+        },
+        {
+            "columns": {
+                "column-featured_image": {
+                    "column-name": "column-featured_image",
+                    "type": "column-featured_image",
+                    "clone": "",
+                    "label": "Featured Image",
+                    "width": "",
+                    "width_unit": "%",
+                    "image_size": "thumbnail",
+                    "image_size_w": "80",
+                    "image_size_h": "80"
+                },
+                "title": {
+                    "column-name": "title",
+                    "type": "title",
+                    "clone": "",
+                    "label": "Title",
+                    "width": "",
+                    "width_unit": "%"
+                },
+                "column-meta": {
+                    "column-name": "column-meta",
+                    "type": "column-meta",
+                    "clone": "",
+                    "label": "Zozi ID",
+                    "width": "",
+                    "width_unit": "%",
+                    "field": "zozi_product_id",
+                    "field_type": "",
+                    "before": "",
+                    "after": "",
+                    "date_format": "F j, Y"
+                },
+                "taxonomy-status": {
+                    "column-name": "taxonomy-status",
+                    "type": "taxonomy-status",
+                    "clone": "",
+                    "label": "Status",
+                    "width": "",
+                    "width_unit": "%"
+                },
+                "column-meta-2": {
+                    "column-name": "column-meta-2",
+                    "type": "column-meta",
+                    "clone": "2",
+                    "label": "Attributes",
+                    "width": "",
+                    "width_unit": "%",
+                    "field": "photogenic_attributes",
+                    "field_type": "",
+                    "before": "",
+                    "after": "",
+                    "date_format": "F j, Y"
+                },
+                "column-meta-1": {
+                    "column-name": "column-meta-1",
+                    "type": "column-meta",
+                    "clone": "1",
+                    "label": "Address",
+                    "width": "",
+                    "width_unit": "%",
+                    "field": "martygeocoderaddress",
+                    "field_type": "",
+                    "before": "",
+                    "after": ""
+                },
+                "gadwp_stats": {
+                    "column-name": "gadwp_stats",
+                    "type": "gadwp_stats",
+                    "clone": "",
+                    "label": "Analytics",
+                    "width": "",
+                    "width_unit": "%"
+                }
+            },
+            "layout": {
+                "id": null,
+                "name": "Original",
+                "roles": "",
+                "users": ""
+            }
+        }
+    ]
+}
