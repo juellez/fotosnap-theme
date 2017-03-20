@@ -8,6 +8,29 @@ include('functions-fotosnap.php');
 include('functions-photo-orders.php');
 
 
+/* --------------------
+    remove some dashboard
+    widgets
+----------------------- */
+
+function remove_dashboard_widgets() {
+    global $wp_meta_boxes;
+    unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press']); // Removes QuickPress
+    // unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_incoming_links']); // Incoming Links
+    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_right_now']); // Removes Right Now
+    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_plugins']); // Removes Plugins
+    // unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_recent_drafts']); // Removes Recent Drafts
+    // unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_comments']); // Removes Recent Comments
+    unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_primary']); // Removes the WordPress Developer Blog
+    unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_secondary']); // Removes the WordPress Blog Updates
+
+    // some plugin boxes
+    unset($wp_meta_boxes['dashboard']['side']['high']['redux_dashboard_widget']); 
+    unset($wp_meta_boxes['dashboard']['normal']['core']['photocrati_admin_dashboard_widget']); 
+
+    // var_dump($wp_meta_boxes);
+}
+add_action('wp_dashboard_setup', 'remove_dashboard_widgets' );
 
 /* --------------------
    athena (parent theme)

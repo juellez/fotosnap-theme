@@ -78,6 +78,66 @@ function fs_status_init() {
 }
 add_action( 'init', 'fs_status_init' );
 
+
+/*-------------------------------------------*\
+   Photo Shoot Type: this essentially brings
+   together a Zozi booking (and ideally, in the future, 
+   our own booking). Created day of shoot (to avoid hassle 
+   of managing cancelations) linking customer information
+   w/photos from shoot - so they can securely access
+   their photos and make a purchase.
+\*-------------------------------------------*/
+
+// Custom Post Type
+add_action("init", "fs_register_shoot_post_type"); // Add our custom post type
+add_action('init', 'fs_register_shoot_menu'); // Add to admin menu
+
+function fs_register_shoot_menu()
+{
+    register_nav_menus(array( // Using array to specify more menus if needed
+        'header-menu' => __('Header Menu', 'venue'), // Main Navigation
+        'sidebar-menu' => __('Sidebar Menu', 'venue'), // Sidebar Navigation
+        'extra-menu' => __('Extra Menu', 'venue') // Extra Navigation if needed (duplicate as many as you need!)
+    ));
+}
+function fs_register_shoot_post_type() {
+    register_post_type( "shoot",
+        array(
+            "labels" => array(
+                "name" => __( "Client Shoots" ),
+                "singular_name" => __( "Client Shoot" ),
+                "add_new" => __( "Add New" ),
+                "add_new_item" => __( "Add New Shoot" ),
+                "edit" => __( "Edit" ),
+                "edit_item" => __( "Edit Shoot" ),
+                "new_item" => __( "New Shoot" ),
+                "view" => __( "View Shoots" ),
+                "view_item" => __( "View Shoot" ),
+                "search_items" => __( "Search Shoots" ),
+                "not_found" => __( "No Shoots Found" ),
+                "not_found_in_trash" => __( "No Shoots Found in trash" ),
+                "parent" => __( "Client Photo Shoot" ),
+            ),
+            "rewrite" => array(
+                "slug" => "gallery",
+                "with_front" => true,
+                "pages" => true,
+                ),
+            'description' => 'Booked photo session that was shot or is to be shot today.',
+            'public' => true,
+            'exclude_from_search' => true,
+            'publicly_queryable' => true,
+            'show_ui' => true,
+            'menu_position' => 5,
+            'menu_icon' => 'dashicons-camera',
+            'capability_type' => 'post',
+            "has_archive" => false,
+            "supports" => array("title", "editor", "revisions"),
+            'can_export' => true,
+            )
+        );
+}
+
 /*-------------------------------------------*\
    Referral Codes + Tracking
 \*-------------------------------------------*/
@@ -123,7 +183,7 @@ function fs_register_referral_post_type() {
             'publicly_queryable' => true,
             'show_ui' => true,
             'menu_position' => 8,
-            'menu_icon' => 'dashicons-star-empty',
+            'menu_icon' => 'dashicons-tickets',
             'capability_type' => 'page',
             "has_archive" => false,
             "supports" => array( "title", "editor", "revisions"),
@@ -202,7 +262,7 @@ function fs_register_photographer_post_type() {
             'publicly_queryable' => true,
             'show_ui' => true,
             'menu_position' => 5,
-            'menu_icon' => 'dashicons-star-empty',
+            'menu_icon' => 'dashicons-admin-users',
             'capability_type' => 'post',
             "has_archive" => false,
             "supports" => array( "title", "editor", "revisions","thumbnail"),
@@ -300,7 +360,7 @@ function fs_register_venue_post_type() {
             'publicly_queryable' => true,
             'show_ui' => true,
             'menu_position' => 5,
-            'menu_icon' => 'dashicons-star-empty',
+            'menu_icon' => 'dashicons-location',
             'capability_type' => 'post',
             "has_archive" => false,
             "supports" => array( "title", "editor", "revisions","thumbnail"),
