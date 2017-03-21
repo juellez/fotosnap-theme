@@ -24,7 +24,11 @@ get_header();
 
                             if( $gallery = get_field('photo_gallery', $post_id) ): ?>
 
-                              <h1><?= $ngg_gallery->title ?></h1>
+                              <h1><?= the_title()?></h1>
+
+                                <small>Click on any photo to enlarge, select for purchase and download. Remember, you get your first photo for free! Once you select your photos
+				and checkout, you'll have access to download without a watermark. You'll also receive an email confirmation with the link, so you can return
+				anytime within 6 months to access your photos.</small>
 
                               <?php if ( post_password_required() ) : ?>
                                   <?php echo get_the_password_form(); ?>
@@ -37,7 +41,7 @@ get_header();
                                   $ngg_gallery = $nggdb->find_gallery($gid);
                                   //  stdClass Object ( [gid] => 9 [name] => 2017-feb-cupbar-annsanderson [slug] => 2017-Feb-CupBar-AnnSanderson [path] => /wp-content/gallery/2017-feb-cupbar-annsanderson [title] => 2017-Feb-CupBar-AnnSanderson [galdesc] => [pageid] => 0 [previewpic] => 0 [author] => 3 [extras_post_id] => 1506 [pricelist_id] => 0 [id_field] => gid [__defaults_set] => 1 ) ?>
 
-                                <p>You look great! <a href="/shopping-cart/" id='ngg_checkout_btn'>View Cart / Checkout</a></p>
+                                <p id="profile-gallery-cta">You look great! <a href="/shopping-cart/" id='ngg_checkout_btn'>View Cart / Checkout</a></p>
 
                                 <?php
 
@@ -47,15 +51,16 @@ get_header();
 
                                 ?>
                               
-                                <?php the_content(); ?>
-
-                                <p>You'll be able to download your images immediately upon checkout and you'll also receive an email with a confirmation and link, so you can download later to your computer or phone. When you download your photos, the watermark found at the bottom will have been removed. There's no limit to how many times you can download your photos.</p>
+                                <?php if( get_the_content() ): ?>
+                                  <p>A note from your photographer: </p>
+                                  <?php the_content(); ?>
+                                <?php endif; // note from photographer ?>
 
                                 <?php endif; // end protected content ?>
 
                               <?php else: ?>
 
-                              <p>We'll let you know as soon as your photos are uploaded!</p>
+                              <p class="instr-download">We'll let you know as soon as your photos are uploaded!</p>
 
                             <?php  endif; ?>
                         </div><!-- .entry-content -->

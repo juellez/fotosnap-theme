@@ -364,6 +364,15 @@ table td { text-align: left; }
     top: 10px;
     width: 70px;
 }
+/* profile photo */
+.instr-download{
+    position: absolute;
+    top: -50px;
+}
+#profile-gallery-cta{
+    margin-top: 60px;
+}
+
 @media screen and (min-width: 1024px){
   #referral-layer {
       left: 20px;
