@@ -372,6 +372,13 @@ table td { text-align: left; }
 #profile-gallery-cta{
     margin-top: 60px;
 }
+#ngg_pro_links_wrapper .ngg_pro_btn{
+    background-color: #00bcd4;
+    background-image: none !important;
+    border-radius: 0px !important;
+    font-family: Raleway, sans-serif !important;
+    text-shadow: none !important;
+}
 
 @media screen and (min-width: 1024px){
   #referral-layer {
