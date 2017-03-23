@@ -432,4 +432,14 @@ nav.locations-nav a.previous {
   #referral-layer h1 { font-size: 18px; letter-spacing: 0; }
 }
 
+.um-directory .col-sm-8
+.um-directory .col-xs-1, .um-directory .col-sm-1, .um-directory .col-md-1, .um-directory .col-lg-1, .um-directory .col-xs-2, .um-directory .col-sm-2, .um-directory .col-md-2, .um-directory .col-lg-2, .um-directory .col-xs-3, .um-directory .col-sm-3, .um-directory .col-md-3, .um-directory .col-lg-3, .um-directory .col-xs-4, .um-directory .col-sm-4, .um-directory .col-md-4, .um-directory .col-lg-4, .um-directory .col-xs-5, .um-directory .col-sm-5, .um-directory .col-md-5, .um-directory .col-lg-5, .um-directory .col-xs-6, .um-directory .col-sm-6, .um-directory .col-md-6, .um-directory .col-lg-6, .um-directory .col-xs-7, .um-directory .col-sm-7, .um-directory .col-md-7, .um-directory .col-lg-7, .um-directory .col-xs-8, .um-directory .col-sm-8, .um-directory .col-md-8, .um-directory .col-lg-8, .um-directory .col-xs-9, .um-directory .col-sm-9, .um-directory .col-md-9, .um-directory .col-lg-9, .um-directory .col-xs-10, .um-directory .col-sm-10, .um-directory .col-md-10, .um-directory .col-lg-10, .um-directory .col-xs-11, .um-directory .col-sm-11, .um-directory .col-md-11, .um-directory .col-lg-11, .um-directory .col-xs-12, .um-directory .col-sm-12, .um-directory .col-md-12, .um-directory .col-lg-12 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+h1 small {
+    font-size: 14px;
+    font-weight: normal;
+}
 

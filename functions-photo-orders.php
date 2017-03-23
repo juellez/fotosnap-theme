@@ -1,12 +1,13 @@
 <?php
 /*
-  Photo handling and orders.
-  All of NGG's data is serialized in the DB using their proprietary encode/decode
-  Ngg_Serializable
-
-
+  Photo handling and orders, extending NextGen Gallery Pro.
+  If we switch from using that, these functions need adjusted/removed.
+  FUN TIDBIT: All of NGG's data is serialized in the DB using their proprietary encode/decode: Ngg_Serializable
 */
 
+/* ----------------------------
+    GALLERY MANAGEMENT
+----------------------------- */
 
 // customize the next gen gallery admin: called by apply_filters('ngg_manage_gallery_columns', $columns)
 // add_action( 'ngg_manage_gallery_columns', 'fs_ngg_manage_gallery_columns' );
@@ -16,9 +17,9 @@ function fs_ngg_manage_gallery_columns($columns){
       return $columns;
 }
 
-/*
+/* ----------------------------
     PHOTO SHOOTS (BOOKINGS)
-*/
+----------------------------- */
 
 add_filter('manage_shoot_posts_columns', 'fs_manage_shoot_columns', 11);
 function fs_manage_shoot_columns($columns)
@@ -66,9 +67,20 @@ function fs_output_shoot_column($column_name, $post_id)
     }
 }
 
-/*
+/* ----------------------------
     PHOTO ORDERS
-*/
+----------------------------- */
+
+// we wanted to customize our order screen, but the short codes
+// don't get parsed inside of html tags like <a href="[[digital_downloads_page_url]"
+// so this filter fixes that. 11 means it'll run AFTER NGG
+add_action( 'ngg_order_details', 'fs_ngg_order_details', 11, 2);
+function fs_ngg_order_details($retval,$order){
+  if( stristr($retval, "&#91;digital_downloads_page_url&#93;") ){
+    $retval = str_replace("&#91;digital_downloads_page_url&#93;", $order->digital_downloads_page_url, $retval);
+  }
+  return $retval;
+}
 
 // remove NGG's default and add our better one -- so we can see the images ordered!
 // remove_action(
@@ -133,12 +145,3 @@ function fs_ngg_output_order_column($column_name, $post_id)
     // [item_count] => 1
     // [emails_sent] => 1
 }
-
-// customize orders
-function fs_ngg_order_details($retval,$order=null){
-  // var_dump($retval);
-  // var_dump($order);
-  return $retval;
-}
-add_action( 'ngg_order_details', 'fs_ngg_order_details');
-

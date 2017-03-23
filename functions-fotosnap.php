@@ -265,7 +265,7 @@ function fs_register_photographer_post_type() {
             'menu_icon' => 'dashicons-admin-users',
             'capability_type' => 'post',
             "has_archive" => false,
-            "supports" => array( "title", "editor", "revisions","thumbnail"),
+            "supports" => array( "author","title", "editor", "revisions","thumbnail"),
             'can_export' => true,
             )
         );
@@ -398,9 +398,12 @@ function fs_show_venues($status='',$colw=3){
     currently sites on top of custom fields "relationship" type
 ----------------------- */
 
-function fs_show_related_photogs_venues($type,$colw=3) {
+function fs_show_related_photogs_venues($type,$post_id=0) {
     global $post; 
-    $ids = get_field('photog_venue_match', $post->ID, false);
+    if( !$post_id ) $post_id = $post->ID;
+    // work off related post
+    $colw=3;
+    $ids = get_field('photog_venue_match', $post_id, false);
     if( $ids ){
         $child_pages = new WP_Query(array(
             'post_type'         => $type,
@@ -413,3 +416,23 @@ function fs_show_related_photogs_venues($type,$colw=3) {
         wp_reset_postdata(); //remember to reset data
     }
 }
+
+function fs_get_photographer_by_userid($profileID=0) {
+
+    $photographer = 0;
+    $photographer_posts = new WP_Query(array(
+        'post_type'         => 'photographer',
+        'posts_per_page'    => 1,
+        'author'            => $profileID,
+        'post_status'       => 'any',
+    ));
+    // var_dump($photographer_posts);
+    while ( $photographer_posts->have_posts() ){
+        $photographer_posts->the_post();
+        $photographer = get_post();
+    }
+    wp_reset_postdata(); //remember to reset data
+    return $photographer;
+
+}
+
