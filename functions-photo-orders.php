@@ -17,9 +17,13 @@ function fs_ngg_manage_gallery_columns($columns){
       return $columns;
 }
 
-/* ----------------------------
+/* ---------------------------------
     PHOTO SHOOTS (BOOKINGS)
------------------------------ */
+
+    emails used:
+      email_photos_ready_reminder
+      email_photos_ready
+---------------------------------- */
 
 add_filter('manage_shoot_posts_columns', 'fs_manage_shoot_columns', 11);
 function fs_manage_shoot_columns($columns)
@@ -38,9 +42,7 @@ function fs_output_shoot_column($column_name, $post_id)
     global $post;
     switch ($column_name) {
         case 'post_password':
-          global $post;
           echo $post->post_password;
-            // echo $post_id
           break;
 
         case 'attached_gallery':
@@ -60,12 +62,76 @@ function fs_output_shoot_column($column_name, $post_id)
         case 'fs_send_email':
           $gallery = get_permalink($post);
           $password = $post->post_password;
-          $to = get_field('customer_email', $post);
-          echo "<a href=\"/wp-admin/tools.php?page=sefa_email&gallery={$gallery}&password={$password}&to={$to}\">Preview + Send Email</a>";
-          // http://fotosnap.dev/wp-admin/tools.php?page=sefa_email&gallery=something&password=else&to=jewel%40mlnarik.com
+          $to = get_field('customer_email_address', $post_id);
+          // cache this shit
+          $cache_key = 'fs-shoot-emails-col-'.$post_id;
+          $content = get_transient($cache_key);
+          // if not set, fetch a value & cache it
+          if( $content === false ){
+            $emails         = array('email_photos_ready' =>'Photos Ready Email', 'email_photos_ready_reminder' => 'Photos Ready Reminder');
+            $email_actions  = array('email_photos_ready' =>array(),        'email_photos_ready_reminder' => array());
+            $history = fs_get_shoot_email_history($post_id);
+
+            foreach($emails as $k => $l){
+             $email_actions[$k][] = "<a href=\"/wp-admin/tools.php?page=sefa_email&event={$k}&id={$post_id}&to=[to]&gallery=[gallery]&password=[password]\">Send {$l}</a>";
+            }
+            foreach($history as $r){
+              $email_actions[$r->activity][] = "\_ sent on {$r->timestamp} to {$r->meta['to']}";
+            }
+            foreach($email_actions as $k => $rows){
+              $email_actions[$k] = implode("<br>", $rows);
+            }
+            $content = implode("<br>", $email_actions);
+            set_transient( $cache_key, $content, 28800 );
+          }
+          $content = str_replace("[to]", $to, $content);
+          $content = str_replace("[password]", $password, $content);
+          $content = str_replace("[gallery]", $gallery, $content);
+          echo $content;
           break;
     }
 }
+
+// log the email, attached to the shoot record
+add_action('fs_sefa_email_sent', 'fs_log_shoot_email',10,1);
+function fs_log_shoot_email($args){
+  $fs_shoot_id = isset( $_POST['fs_shoot_id'] ) ? trim($_POST['fs_shoot_id']) : 0;
+  $action = isset( $_POST['fslog_event'] ) ? trim($_POST['fslog_event']) : 'email_photos_ready';
+
+  // clear transients pulling this activity - see fs_output_shoot_column
+  $cache_key = 'fs-shoot-emails-col-'.$fs_shoot_id;
+  delete_transient( $cashe_key );
+
+  if( $fs_shoot_id && function_exists('fslog_log_post_event') ){
+    $meta = array(
+      'to' => $args['to'],
+      'subject' => $args['subject']
+    );
+    return fslog_log_post_event( $fs_shoot_id, $action, $meta);
+  }
+  return false;
+}
+
+// fetch the email history, attached to the shoot record
+// email_photos_ready | email_photos_ready_reminder
+function fs_get_shoot_email_history($shootID){
+  if( function_exists('fslog_get_post_events') ){
+    return fslog_get_post_events($shootID, array('email_photos_ready','email_photos_ready_reminder') );
+  }
+  return false;
+}
+
+// add fs_shoot_id to our sefa email form, so we can log it on success
+add_action('fs_sefa_email_form', 'fs_add_shoot_email_tracking');
+function fs_add_shoot_email_tracking(){
+  $default_id = 0;
+  $event = 'email_photos_ready';
+  if( !empty($_GET['id']) ) $default_id = $_GET['id'];
+  if( !empty($_GET['event']) ) $event = $_GET['event'];
+  echo '<input type="hidden" name="fs_shoot_id" value="'.$default_id.'" />';
+  echo '<input type="hidden" name="fslog_event" value="'.$event.'" />';
+}
+
 
 /* ----------------------------
     PHOTO ORDERS
