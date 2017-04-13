@@ -214,6 +214,27 @@ add_action( 'wp_loaded', 'fs_child_remove_parent_function' );
 add_action( 'athena_homepage', 'fs_render_homepage', 15 );
 add_action( 'athena_footer', 'fs_render_footer' );
 
+/* cleanup some plugin conflicts
+ * 1. ultimate member
+ */
+function remove_um_scripts() {
+    $block = false;
+    $uri = $_SERVER['REQUEST_URI'];
+    if( stristr($uri, "venues") ) $block = true;
+    if( $block ){
+        if( class_exists('UM_Enqueue') ){
+            global $ultimatemember;
+            // and we're NOT in a profile page
+            $priority = apply_filters( 'um_core_enqueue_priority', 100 );
+            remove_action('wp_enqueue_scripts', array($ultimatemember->styles, 'wp_enqueue_scripts'), $priority);
+        }
+        if( class_exists('UM_Gallery') ){
+            remove_action( 'wp_enqueue_scripts', array(um_gallery(), 'add_scripts') );
+        }
+    }
+}
+add_action( 'init', 'remove_um_scripts', 1000 ); // run AFTER any UM scripts
+
 
 /**
  * Add additional sliders (not using just yet)
