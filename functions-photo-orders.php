@@ -31,6 +31,7 @@ function fs_manage_shoot_columns($columns)
   // $columns['post_password'] = "Password";
   $columns['attached_gallery'] = "Photo Gallery / Password";
   $columns['fs_send_email'] = "Send Email";
+  $columns['fs_customer'] = "Customer";
   return $columns;
 }
 
@@ -55,8 +56,15 @@ function fs_output_shoot_column($column_name, $post_id)
             //  stdClass Object ( [gid] => 9 [name] => 2017-feb-cupbar-annsanderson [slug] => 2017-Feb-CupBar-AnnSanderson [path] => /wp-content/gallery/2017-feb-cupbar-annsanderson [title] => 2017-Feb-CupBar-AnnSanderson [galdesc] => [pageid] => 0 [previewpic] => 0 [author] => 3 [extras_post_id] => 1506 [pricelist_id] => 0 [id_field] => gid [__defaults_set] => 1 )
 
             echo "<a href=\"/wp-admin/admin.php?page=nggallery-manage-gallery&mode=edit&gid={$gid}\">{$ngg_gallery->title}</a>";
-            echo "<br>password: ".$post->post_password;
+            echo "<br>access code: ".$post->post_password;
           }
+          break;
+
+        case 'fs_customer':
+          $first = get_field('customer_name', $post_id);
+          $last = get_field('customer_last_name', $post_id);
+          $email = get_field('customer_email_address', $post_id);
+          echo "{$first} {$last} &lt;{$email}&gt;";
           break;
 
         case 'fs_send_email':
