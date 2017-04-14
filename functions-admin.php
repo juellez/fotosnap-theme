@@ -1,13 +1,45 @@
 <?php
 /* custom admin stuff */
 
+// wp_get_recent_posts( array $args = array(), string $output = ARRAY_A )
+
 if( is_admin() ):
+
+  function fs_display_widget($filename,$args=array()){
+    $file = plugin_dir_path( __FILE__ ) . 'admin/' . $filename . '.php';
+    if ( file_exists( $file ) ){
+      include $file;
+    }
+  }
+  function fs_dash_shoots_widget(){
+    $args = wp_get_recent_posts( array('post_type'=>'shoot') );
+    var_dump($args);
+    fs_display_widget('newest_sessions',$args);
+  }
+  function fs_dash_galleries_widget(){
+    $args = wp_get_recent_posts( array('post_type'=>'ngg_gallery') );
+    var_dump($args);
+    fs_display_widget('newest_galleries',$args);
+  }
+  function fs_dash_orders_widget(){
+    $args = wp_get_recent_posts( array('post_type'=>'ngg_order') );
+    var_dump($args);
+    fs_display_widget('newest_orders',$args);
+  }
 
   // don't show useless metaboxes 
   function fs_handle_metaboxes(){
 
     $args = array('show_ui' => true);
     $types = get_post_types($args,'names');
+
+    // cleanup dashboard boxes
+    remove_meta_box( 'dashboard_activity', 'dashboard' , 'normal' ); 
+
+    // add our dashboard boxes
+    // add_meta_box('fs_shoot_widget', 'New Client Sessions', 'fs_dash_shoots_widget', 'dashboard', 'side', 'high');
+    // add_meta_box('fs_galleries_widget', 'New Galleries', 'fs_dash_galleries_widget', 'dashboard', 'side', 'high');
+    // add_meta_box('fs_orders_widget', 'Recent Orders', 'fs_dash_orders_widget', 'dashboard', 'side', 'high');
 
     // list the metaboxes we know and the only types they should show on
     // this could be extracted out to admin config
@@ -25,27 +57,6 @@ if( is_admin() ):
         }
       }
     }
-    /*
-    // expiry only needed for referral - expirationdatediv
-      remove_meta_box( 'expirationdatediv', 'venue', 'side' ); 
-      remove_meta_box( 'expirationdatediv', 'template', 'side' ); 
-      remove_meta_box( 'expirationdatediv', 'photographer', 'side' ); 
-      remove_meta_box( 'expirationdatediv', 'shoot', 'side' ); 
-      remove_meta_box( 'expirationdatediv', 'media', 'side' ); 
-      remove_meta_box( 'expirationdatediv', 'post', 'side' ); 
-      remove_meta_box( 'expirationdatediv', 'page', 'side' ); 
-
-    // member content only needed for pages - um-admin-access-settings
-      remove_meta_box( 'um-admin-access-settings', 'venue', 'side' ); 
-      remove_meta_box( 'um-admin-access-settings', 'template', 'side' ); 
-      remove_meta_box( 'um-admin-access-settings', 'photographer', 'side' ); 
-      remove_meta_box( 'um-admin-access-settings', 'shoot', 'side' ); 
-      remove_meta_box( 'um-admin-access-settings', 'media', 'side' ); 
-      remove_meta_box( 'um-admin-access-settings', 'post', 'side' ); 
-      remove_meta_box( 'um-admin-access-settings', 'referral', 'side' ); 
-
-    // geocoder only needed on locations - martygeocoder
-    */
   }
   add_action( 'do_meta_boxes', fs_handle_metaboxes );
 
@@ -82,6 +93,12 @@ if( is_admin() ):
         }
         #wp-admin-bar-updates, 
         #wp-admin-bar-wp-logo { display: none }
+        #dashboard-widgets-wrap #normal-sortables .postbox,
+        #dashboard-widgets-wrap #side-sortables .postbox,
+        #dashboard-widgets-wrap #side-sortables .postbox,
+        #dashboard-widgets-wrap #column3-sortables .postbox,
+        #dashboard-widgets-wrap #column4-sortables .postbox,
+        #dashboard-widgets-wrap #column5-sortables .postbox { border-radius: 10px; }
         @media screen and (min-width: 782px){
           #wpbody { padding-top: 32px; }
           #wpwrap #wpadminbar { height: 32px; padding: 0 0 0 0; }
