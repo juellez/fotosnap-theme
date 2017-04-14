@@ -49,6 +49,60 @@ if( is_admin() ):
   }
   add_action( 'do_meta_boxes', fs_handle_metaboxes );
 
+  function fs_admin_footer_text() {
+    $footerText = '<div class="quote">';
+      $quotes = array(
+        "dreams don't work unless you do",
+        "creativity takes courage",
+        "don't think too much ... you'll create a problem that wasn't there in the first place",
+        "decide. commit. succeed.",
+        "shark tank? they're docile creatures, really. throw me in with some octopi",
+        "smile.",
+        "have we told you lately, that we love you?",
+      );
+    $footerText .= $quotes[ rand(0, sizeof($quotes)) ];
+    $footerText .= '</div>';
+    return $footerText;
+  }
+  add_filter( 'admin_footer_text', 'fs_admin_footer_text' );
+
+  function fs_custom_admin_css(){
+    echo '
+      <style>
+        #adminmenu div.wp-menu-name {
+          font-size: 14px;
+          padding: 8px 10px;
+        }
+        #wpcontent {
+          padding-left: 20px;
+        }
+        .wrap { margin-top: 20px; }
+        #wpadminbar .wp-ui-notification {
+          background-color: #1cb6c9;
+        }
+        #wp-admin-bar-updates, 
+        #wp-admin-bar-wp-logo { display: none }
+        @media screen and (min-width: 782px){
+          #wpbody { padding-top: 32px; }
+          #wpwrap #wpadminbar { height: 32px; padding: 0 0 0 0; }
+          #wpadminbar #wp-admin-bar-wpfc-toolbar-parent > .ab-empty-item::before {
+            content: " * ";
+            font-family: Lato;
+            font-size: 14px;
+            line-height: 32px;
+          }
+          #wpcontent #wp-admin-bar-root-default>li>a,
+          #wpcontent #wpadminbar #wp-admin-bar-wp-logo>.ab-item,
+          #wpcontent #wp-admin-bar-top-secondary>li>a
+          {
+            padding: 0 20px;
+          }
+        }
+      </style>
+    ';
+  }
+  add_action( 'admin_head', 'fs_custom_admin_css');
+
 endif;
 
 
