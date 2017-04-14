@@ -6,6 +6,7 @@
 // if you ever need to re-theme, move these function includes into the new theme
 include('functions-fotosnap.php');
 include('functions-photo-orders.php');
+include('functions-admin.php');
 
 
 /* --------------------
@@ -217,7 +218,7 @@ add_action( 'athena_footer', 'fs_render_footer' );
 /* cleanup some plugin conflicts
  * 1. ultimate member
  */
-function remove_um_scripts() {
+function fs_remove_um_scripts() {
     $block = false;
     $uri = $_SERVER['REQUEST_URI'];
     if( stristr($uri, "venues") ) $block = true;
@@ -233,7 +234,8 @@ function remove_um_scripts() {
         }
     }
 }
-add_action( 'init', 'remove_um_scripts', 1000 ); // run AFTER any UM scripts
+add_action( 'init', 'fs_remove_um_scripts', 1000 ); // run AFTER any UM scripts
+
 
 
 /**

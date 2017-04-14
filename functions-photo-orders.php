@@ -67,8 +67,11 @@ function fs_output_shoot_column($column_name, $post_id)
           $cache_key = 'fs-shoot-emails-col-'.$post_id;
           $content = get_transient($cache_key);
           // if not set, fetch a value & cache it
-          if( $content === false ){
-            $emails         = array('email_photos_ready' =>'Photos Ready Email', 'email_photos_ready_reminder' => 'Photos Ready Reminder');
+          if( true || $content === false ){
+            $emails         = array(
+                'email_photos_ready' =>'Ready <span class="dashicons dashicons-email-alt"></span>', //'Photos Ready Email', 
+                'email_photos_ready_reminder' => 'Reminder <span class="dashicons dashicons-email-alt"></span>', //'Photos Ready Reminder'
+              );
             $email_actions  = array('email_photos_ready' =>array(),        'email_photos_ready_reminder' => array());
             $history = fs_get_shoot_email_history($post_id);
 
@@ -76,7 +79,8 @@ function fs_output_shoot_column($column_name, $post_id)
              $email_actions[$k][] = "<a href=\"/wp-admin/tools.php?page=sefa_email&event={$k}&id={$post_id}&to=[to]&gallery=[gallery]&password=[password]\">Send {$l}</a>";
             }
             foreach($history as $r){
-              $email_actions[$r->activity][] = "\_ sent on {$r->timestamp} to {$r->meta['to']}";
+              $on = mysql2date( 'm/d/y g:ia', $r->timestamp );
+              $email_actions[$r->activity][] = "\_ {$on} "; // to {$r->meta['to']}
             }
             foreach($email_actions as $k => $rows){
               $email_actions[$k] = implode("<br>", $rows);

@@ -80,7 +80,7 @@ add_action( 'init', 'fs_status_init' );
 
 
 /*-------------------------------------------*\
-   Photo Shoot Type: this essentially brings
+   Photo Shoot Type (Client Session): this essentially brings
    together a Zozi booking (and ideally, in the future, 
    our own booking). Created day of shoot (to avoid hassle 
    of managing cancelations) linking customer information
@@ -436,3 +436,52 @@ function fs_get_photographer_by_userid($profileID=0) {
 
 }
 
+/*-------------------------------------------*\
+   Email Templates Type
+\*-------------------------------------------*/
+
+// Custom Post Type
+add_action("init", "fs_register_template_post_type"); // Add our custom post type
+add_action('init', 'fs_register_template_menu'); // Add to admin menu
+
+function fs_register_template_menu()
+{
+    register_nav_menus(array( // Using array to specify more menus if needed
+        'header-menu' => __('Header Menu', 'venue'), // Main Navigation
+        'sidebar-menu' => __('Sidebar Menu', 'venue'), // Sidebar Navigation
+        'extra-menu' => __('Extra Menu', 'venue') // Extra Navigation if needed (duplicate as many as you need!)
+    ));
+}
+function fs_register_template_post_type() {
+    register_post_type( "template",
+        array(
+            "labels" => array(
+                "name" => __( "Email Templates" ),
+                "singular_name" => __( "Email Template" ),
+                "add_new" => __( "Add New" ),
+                "add_new_item" => __( "Add New Template" ),
+                "edit" => __( "Edit" ),
+                "edit_item" => __( "Edit Template" ),
+                "new_item" => __( "New Template" ),
+                "view" => __( "View Templates" ),
+                "view_item" => __( "View Template" ),
+                "search_items" => __( "Search Templates" ),
+                "not_found" => __( "No Templates Found" ),
+                "not_found_in_trash" => __( "No Templates Found in trash" ),
+                "parent" => __( "Client Photo Templates" ),
+            ),
+            "rewrite" => false,
+            'description' => 'Email templates for automated messaging and customer service',
+            'public' => false,
+            'exclude_from_search' => true,
+            'publicly_queryable' => false,
+            'show_ui' => true,
+            'menu_position' => 5,
+            'menu_icon' => 'dashicons-email-alt',
+            'capability_type' => 'post',
+            "has_archive" => false,
+            "supports" => array("title", "editor", "revisions"),
+            'can_export' => true,
+            )
+        );
+}
