@@ -145,6 +145,48 @@ function fs_add_shoot_email_tracking(){
 }
 
 
+function fs_get_gallery_sessions_extended_q($all_or_linked='linked'){
+
+  $q = "
+  SELECT p.ID as session_id, p.post_title as session_name, 
+  a.user_nicename as admin, p.post_date, CONCAT('https://fotosnap.co/gallery/',p.post_name) as url, 
+
+  REPLACE( REPLACE(photo_gallery.meta_value, 'a:1:{i:0;a:2:{s:6:\"ngg_id\";i:', ''), ';s:8:\"ngg_form\";s:7:\"gallery\";}}', '') as gallery_id,
+    
+  session_date.meta_value as session_date,
+  session_time.meta_value as session_time,
+  customer_name.meta_value as customer_name,
+  customer_last_name.meta_value as customer_last_name,
+  customer_email_address.meta_value as customer_email_address,
+  customer_mobile_phone.meta_value as customer_mobile_phone,
+  photographer_user.meta_value as photographer_id,
+    u.display_name as photographer_name,
+  venue.meta_value as venue_id,
+    v.post_title as venue_name
+
+  FROM wp_posts p
+  LEFT JOIN wp_users a ON (p.post_author = a.ID)
+  LEFT JOIN wp_postmeta session_date ON (session_date.meta_key = \"session_date\" and session_date.post_id = p.ID)
+  LEFT JOIN wp_postmeta session_time ON (session_time.meta_key = \"session_time\" and session_time.post_id = p.ID)
+  LEFT JOIN wp_postmeta customer_name ON (customer_name.meta_key = \"customer_name\" and customer_name.post_id = p.ID)
+  LEFT JOIN wp_postmeta customer_last_name ON (customer_last_name.meta_key = \"customer_last_name\" and customer_last_name.post_id = p.ID)
+  LEFT JOIN wp_postmeta customer_mobile_phone ON (customer_mobile_phone.meta_key = \"customer_mobile_phone\" and customer_mobile_phone.post_id = p.ID)
+  LEFT JOIN wp_postmeta customer_email_address ON (customer_email_address.meta_key = \"customer_email_address\" and customer_email_address.post_id = p.ID)
+  LEFT JOIN wp_postmeta photographer_user ON (photographer_user.meta_key = \"photographer_user\" and photographer_user.post_id = p.ID)
+    LEFT JOIN wp_users u ON photographer_user.meta_value = u.ID
+  LEFT JOIN wp_postmeta venue ON (venue.meta_key = \"venue\" and venue.post_id = p.ID)
+    LEFT JOIN wp_posts v ON venue.meta_value = v.ID
+  LEFT JOIN wp_postmeta photo_gallery ON (photo_gallery.meta_key = \"photo_gallery\" and photo_gallery.post_id = p.ID)
+
+  WHERE p.post_type = \"shoot\"
+  ";
+  if( $all_or_linked == 'linked' ){
+    $q .= "AND p.post_status = 'publish' HAVING gallery_id > 0";
+  }
+  return $q;
+
+}
+
 /* ----------------------------
     PHOTO ORDERS
 ----------------------------- */
@@ -174,6 +216,9 @@ function fs_ngg_manage_order_columns($columns)
   $columns['order_image_thumbs'] = __('Thumbnails', 'nggallery-gallery-pro');
   $columns['order_hash']      = __('ID', 'nextgen-gallery-pro');
   $columns['order_customer']  = __('Customer', 'nextgen-gallery-pro');
+  $columns['order_photographer']  = __('Photog', 'nextgen-gallery-pro');
+  $columns['order_venue']     = __('Venue', 'nextgen-gallery-pro');
+  $columns['order_session_date']     = __('Session', 'nextgen-gallery-pro');
   $columns['order_status']    = __('Order Status', 'nextgen-gallery-pro');
   $columns['order_gateway']   = __('Payment Gateway', 'nextgen-gallery-pro');
   $columns['order_coupon']    = __('Coupon', 'nextgen-gallery-pro');
@@ -182,14 +227,99 @@ function fs_ngg_manage_order_columns($columns)
   return $columns;
 }
 
+/* get list of all galleries and sessions linked to order
+ * @return array keyed off of order ID
+  public session_id -> string(4) "1617"
+  public session_name -> string(28) "Ann @ Cup and Bar - Feb 2017"
+  public admin -> string(5) "jewel"
+  public post_date -> string(19) "2017-03-19 21:51:39"
+  public url -> string(48) "https://fotosnap.co/gallery/ann-cup-bar-feb-2017"
+  public gallery_id -> string(2) "11"
+  public session_date -> string(0) ""
+  public session_time -> string(0) ""
+  public customer_name -> string(13) "Ann Sanderson"
+  public customer_last_name -> string(9) "Sanderson"
+  public customer_email_address -> string(15) "ann@fotosnap.co"
+  public customer_mobile_phone -> string(0) ""
+  public photographer_id -> string(1) "5"
+  public photographer_name -> string(13) "Jewel Mlnarik"
+  public venue_id -> string(4) "1294"
+  public venue_name -> string(11) "Cup and Bar"
+ */
+function fs_get_orders_meta(){
+  global $wpdb;
+  static $lookup;
+  if( empty($lookup) ){
+    $galleries = array();
+    $orders = array();
+    $order_mapper = C_Order_Mapper::get_instance();
+
+    // 1. get all sessions linked to photo galleries - we don't care about the others
+    $q = fs_get_gallery_sessions_extended_q();
+    // d($q);
+    $results = $wpdb->get_results( $q );
+    foreach($results as $session){
+      // adjust the data so we can read it...
+      $date = date_create_from_format ( 'Ymd' , $session->session_date );
+      $session->session_date_formatted = date('Y-m-d',$date);
+      $galleries[ $session->gallery_id ] = $session;
+    }
+    // d($galleries);
+
+    // 2. get all orders and parse them ... and then throw it back into a table or cache or something, arg!
+    $q = 'SELECT cart.post_id as order_id, cart.meta_value as cart_data FROM wp_postmeta cart WHERE meta_key = "cart"';  
+    $results = $wpdb->get_results($q);
+    foreach($results as $order){
+      $galleryid = 0;
+      $entity = $order_mapper->unserialize($order->cart_data);
+      // technically a cart can have multiple galleries even though that's not our case
+      // d($entity);
+      foreach($entity['images'] as $id => $row){
+        // d($row);
+        $galleryid = $row['galleryid'];
+      }
+      if( !empty($galleries[ $galleryid ]) ){
+        $orders[$order->order_id] = $galleries[ $galleryid ];
+      }
+      // d($entity);
+    }
+    $lookup = $orders;
+  }
+  return $lookup;
+}
+
 // remove_action('manage_ngg_order_posts_custom_column', array('M_NextGen_Pro_Ecommerce', 'output_order_column'));
 add_action('manage_ngg_order_posts_custom_column', 'fs_ngg_output_order_column', 9, 2);
 function fs_ngg_output_order_column($column_name, $post_id)
 {
     global $post;
+    $lookup = fs_get_orders_meta();
     $order_mapper = C_Order_Mapper::get_instance();
     $entity = $order_mapper->unserialize($post->post_content);
     switch ($column_name) {
+
+        case 'order_photographer':          
+          // grab the associated photographer by checking our lookup table
+          if( !empty($lookup[$post_id]->photographer_name) ){
+            echo $lookup[$post_id]->photographer_name;
+          }
+          break;
+
+        case 'order_venue':
+          if( !empty($lookup[$post_id]->venue_name) ){
+            echo $lookup[$post_id]->venue_name;
+          }
+          break;
+
+        case 'order_session_date':
+          if( !empty($lookup[$post_id]->session_date_formatted) ){
+            echo $lookup[$post_id]->session_date_formatted;
+          }
+          echo "<br>";
+          if( !empty($lookup[$post_id]->session_time) ){
+            echo $lookup[$post_id]->session_time;
+          }
+          break;
 
         case 'order_image_thumbs':
           foreach($entity['cart']['images'] as $id => $row){
