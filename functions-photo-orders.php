@@ -261,7 +261,7 @@ function fs_get_orders_meta(){
     foreach($results as $session){
       // adjust the data so we can read it...
       $date = date_create_from_format ( 'Ymd' , $session->session_date );
-      $session->session_date_formatted = date('Y-m-d',$date);
+      $session->session_date_formatted = $date->format('Y/m/d');
       $galleries[ $session->gallery_id ] = $session;
     }
     // d($galleries);
