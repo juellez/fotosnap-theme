@@ -32,6 +32,7 @@ function fs_manage_shoot_columns($columns)
   $columns['attached_gallery'] = "Photo Gallery / Password";
   $columns['fs_send_email'] = "Send Email";
   $columns['fs_customer'] = "Customer";
+  $columns['fs_order'] = "Order(s)";
   return $columns;
 }
 
@@ -41,9 +42,28 @@ add_action('manage_shoot_posts_custom_column', 'fs_output_shoot_column', 9, 2);
 function fs_output_shoot_column($column_name, $post_id)
 {
     global $post;
+
+    $lookup = fs_get_galleries_orders_meta();
+    $sessions = $lookup['sessions'];
+
     switch ($column_name) {
         case 'post_password':
           echo $post->post_password;
+          break;
+
+        case 'fs_order':
+          if( !empty($sessions[ $post_id ]->order) ){
+            $order = $sessions[ $post_id ]->order;
+            if( !empty($order->order_date) ){
+              echo "{$order->order_date}<br>";
+            }
+            if( !empty($order->total) ){
+              echo "items: {$order->number_images}<br>";
+            }
+            if( !empty($order->total) ){
+              echo "total: {$order->total}";
+            }
+          }
           break;
 
         case 'attached_gallery':
@@ -246,13 +266,19 @@ function fs_ngg_manage_order_columns($columns)
   public venue_id -> string(4) "1294"
   public venue_name -> string(11) "Cup and Bar"
  */
-function fs_get_orders_meta(){
+function fs_get_galleries_orders_meta(){
   global $wpdb;
   static $lookup;
   if( empty($lookup) ){
-    $galleries = array();
+    // lookup to sessions - 1 gallery to 1 session
+    $galleries_sessions = array();
+    // orders metadata
     $orders = array();
+    // sessions metadata
+    $sessions = array();
     $order_mapper = C_Order_Mapper::get_instance();
+
+    // @todo throw this in a table and (a) only update when needed as this won't scale
 
     // 1. get all sessions linked to photo galleries - we don't care about the others
     $q = fs_get_gallery_sessions_extended_q();
@@ -263,29 +289,40 @@ function fs_get_orders_meta(){
       if( $session->session_date ){
         $date = date_create_from_format ( 'Ymd' , $session->session_date );
         $session->session_date_formatted = $date->format('Y/m/d');
-      }
-      $galleries[ $session->gallery_id ] = $session;
+      }      
+      $sessions[ $session->session_id ] = $session;
+      $galleries_sessions[ $session->gallery_id ] = $session->session_id;
     }
-    // d($galleries);
+    // d($sessions);
 
     // 2. get all orders and parse them ... and then throw it back into a table or cache or something, arg!
-    $q = 'SELECT cart.post_id as order_id, cart.meta_value as cart_data FROM wp_postmeta cart WHERE meta_key = "cart"';  
+    $q = 'SELECT cart.post_id as order_id, cart.meta_value as cart_data, DATE_FORMAT(p.post_date,\'%Y/%m/%d\') as order_date FROM wp_postmeta cart 
+          INNER JOIN wp_posts p ON (p.ID = cart.post_id)  
+          WHERE meta_key = "cart"';  
     $results = $wpdb->get_results($q);
     foreach($results as $order){
       $galleryid = 0;
       $entity = $order_mapper->unserialize($order->cart_data);
+      unset($order->cart_data);
+      // save some key order data for quicker reporting
+      $order->total = $entity['total'];
+      $order->number_images = sizeof($entity['images']);
+      $order->image_ids = $entity['image_ids'];      
       // technically a cart can have multiple galleries even though that's not our case
       // d($entity);
       foreach($entity['images'] as $id => $row){
         // d($row);
         $galleryid = $row['galleryid'];
       }
-      if( !empty($galleries[ $galleryid ]) ){
-        $orders[$order->order_id] = $galleries[ $galleryid ];
+      if( !empty($galleries_sessions[ $galleryid ]) ){
+        $sessions[ $galleries_sessions[ $galleryid ] ]->order = $order;
+        $orders[$order->order_id] = $sessions[ $galleries_sessions[ $galleryid ] ];
       }
       // d($entity);
     }
-    $lookup = $orders;
+    $lookup['sessions'] = $sessions;
+    $lookup['orders'] = $orders;
+    d($lookup);
   }
   return $lookup;
 }
@@ -295,32 +332,34 @@ add_action('manage_ngg_order_posts_custom_column', 'fs_ngg_output_order_column',
 function fs_ngg_output_order_column($column_name, $post_id)
 {
     global $post;
-    $lookup = fs_get_orders_meta();
+    $lookup = fs_get_galleries_orders_meta();
+    $orders = $lookup['orders'];
     $order_mapper = C_Order_Mapper::get_instance();
     $entity = $order_mapper->unserialize($post->post_content);
     switch ($column_name) {
 
         case 'order_photographer':          
           // grab the associated photographer by checking our lookup table
-          if( !empty($lookup[$post_id]->photographer_name) ){
-            echo $lookup[$post_id]->photographer_name;
+          if( !empty($orders[$post_id]->photographer_name) ){
+            echo $orders[$post_id]->photographer_name;
           }
           break;
 
         case 'order_venue':
-          if( !empty($lookup[$post_id]->venue_name) ){
-            echo $lookup[$post_id]->venue_name;
+          if( !empty($orders[$post_id]->venue_name) ){
+            echo $orders[$post_id]->venue_name;
           }
           break;
 
         case 'order_session_date':
-          if( !empty($lookup[$post_id]->session_date_formatted) ){
-            echo $lookup[$post_id]->session_date_formatted;
+          if( !empty($orders[$post_id]->session_date_formatted) ){
+            echo $orders[$post_id]->session_date_formatted;
           }
           echo "<br>";
-          if( !empty($lookup[$post_id]->session_time) ){
-            echo $lookup[$post_id]->session_time;
+          if( !empty($orders[$post_id]->session_time) ){
+            echo $orders[$post_id]->session_time;
           }
+          echo "<br><a href='./post.php?post={$orders[$post_id]->session_id}&action=edit'>edit/view</a>";
           break;
 
         case 'order_image_thumbs':
