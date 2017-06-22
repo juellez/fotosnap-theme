@@ -177,7 +177,7 @@ function fs_register_referral_post_type() {
                 "with_front" => false,
                 "pages" => false,
                 ),
-            'description' => 'Referral codes in Zozi for tracking.',
+            'description' => 'Referral codes in Zozi/Peek for tracking.',
             'public' => true,
             'exclude_from_search' => true,
             'publicly_queryable' => true,
@@ -198,7 +198,7 @@ function fs_metaBoxReferralAdd( $post ){
     // screen: 'post','page','dashboard','link','attachment','custom_post_type'
     // context: 'normal', 'advanced', or 'side'
     // priority: 'high', 'core', 'default' or 'low'
-   add_meta_box( 'fs_referrals', 'Zozi + Tracking Information', 'fs_metaBoxReferralRender', 'referral', 'normal', 'high' );
+   add_meta_box( 'fs_referrals', 'Zozi/Peek + Tracking Information', 'fs_metaBoxReferralRender', 'referral', 'normal', 'high' );
    remove_meta_box( 'slugdiv', 'referral', 'normal' ); 
 }
 function fs_metaBoxReferralRender( $post ){
@@ -215,6 +215,27 @@ function fs_metaBoxReferralSave( $post_id ){
         update_post_meta( $post_id, 'referrer_name', trim($_POST['referrer_name']) );
     }
 }
+
+function fs_hookPeekCode() {
+    ?>
+        <script type="text/javascript">
+          (function(config) {
+            window._peekConfig = config || {};
+            var idPrefix = 'peek-book-button';
+            var id = idPrefix+'-js'; if (document.getElementById(id)) return;
+            var head = document.getElementsByTagName('head')[0];
+            var el = document.createElement('script'); el.id = id;
+            var date = new Date; var stamp = date.getMonth()+"-"+date.getDate();
+            var basePath = "https://js.peek.com";
+            el.src = basePath + "/widget_button.js?ts="+stamp;
+            head.appendChild(el); id = idPrefix+'-css'; el = document.createElement('link'); el.id = id;
+            el.href = basePath + "/widget_button.css?ts="+stamp;
+            el.rel="stylesheet"; el.type="text/css"; head.appendChild(el);
+          })({key: 'c74c5080-8031-4867-bc34-66878fb89340'});
+        </script>
+    <?php
+}
+add_action('wp_head', 'fs_hookPeekCode');
 
 
 /*-------------------------------------------*\

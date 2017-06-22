@@ -4,6 +4,7 @@
  */
 get_header();
 
+$peek_id = get_post_meta( $post->ID, 'peek_product_id', true ) + 0;
 $zozi_id = get_post_meta( $post->ID, 'zozi_product_id', true ) + 0;
 $attributes = get_post_meta( $post->ID, 'photogenic_attributes', true );
 $active = has_term( 'active', 'status', $post );
@@ -81,7 +82,7 @@ $mapurl = "https://www.google.com/maps?q=".urlencode($address);
 
 
             <div class="row">
-                <?php if( $active && $zozi_id ): // active place - pull from zozi ?>
+                <?php if( false && $active && $zozi_id ): // active - no more zozi ?>
                     <div class="col-sm-12">
                       <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                         <div class="entry-content">
@@ -89,12 +90,14 @@ $mapurl = "https://www.google.com/maps?q=".urlencode($address);
                           <div class="zozi-frame-wrapper">
 
                             <iframe data-src="https://a.zozi.com/#/embed/fotosnapor/products/<?= $zozi_id ?>?embedOptions=%7B%22merchantCode%22%3A%22fotosnapor%22%2C%22view%22%3A%22month%22%2C%22productIDs%22%3A%22%22%2C%22capacityDisplay%22%3A%22text%22%2C%22capacityText%22%3A%22BOOK%22%2C%22soldOutDisplay%22%3A%22text%22%2C%22soldOutText%22%3A%22Sold%20Out%22%2C%22includeName%22%3Anull%2C%22pastDatesBehavior%22%3A%22hide%22%2C%22allowAddonsPriceRollup%22%3A%22true%22%2C%22availabilityView%22%3A%22first%22%2C%22modalButtonText%22%3A%22Open%20Calendar%22%2C%22listButtonText%22%3A%22Book%20Now%22%2C%22buttonTextColor%22%3A%22%23FFFFFF%22%2C%22iconColor%22%3A%22%23000000%22%2C%22checkoutButtonColor%22%3A%22%23F0722C%22%2C%22accentColor%22%3A%22%23f37521%22%2C%22allowLocationHashControl%22%3A%22true%22%2C%22productContent%22%3A%22show%22%2C%22showProductsPage%22%3A%22hide%22%2C%22defaultOpenView%22%3A%22app.embed.merchant.calendarWidget%22%2C%22addonsPage%22%3A%22show%22%2C%22buttonBackground%22%3A%22%23FF8200%22%2C%22lowerMaxQuantitySelectableLimit%22%3A1000%2C%22upperMaxQuantitySelectableLimit%22%3A10000%7D" data-allow-hashchange="true" frameborder="0" id="zozi-embedded-checkout" scrolling="no" seamless="seamless" class="zozi-frame"><?php the_content(); ?></iframe><script src="https://a.zozi.com/assets/widgets/embedded.origin.js"></script>
+
                           </div>
 
                         </div>
                       </article>
                     </div>
-                <?php else: // inactive place -- display some stuff ?>
+
+                <?php else: // NOT A ZOZI ACTIVITY -- display some stuff ?>
                     <div class="col-sm-3">
                         <div class="row venue-gallery">
                             <?php
@@ -112,15 +115,36 @@ $mapurl = "https://www.google.com/maps?q=".urlencode($address);
 
                                     <?php the_content(); ?>
 
-                                    <br><br>
+                                    <?php if( is_array($attributes) && !in_array('indoor', $attributes) ): ?>
+                                        
+                                            <!-- We know the weather can be difficult this time of year. While crisp air and holiday lighting can create a great natural looking photo, 
+                                            windstorms and hard rain is just too much nature for the camera. -->
+                                            <strong>Good Weather Guarantee</strong><br>
+                                            Okay, we can't guarantee the weather will always cooperate. So know that even if Mother Nature doesn't abide, we'll 
+                                            reschedule your session or issue a full refund.
+                                        
+                                    <?php endif; ?>
 
-                                    <?php if( $post->post_type == 'venue' && !$active ): ?>
-                                        <br><br><small></small>
-                                        <a href="/host" 
+
+                                    <?php if( $active ): ?>
+                                        <!--                                                 
+                                        <a href="https://www.peek.com/s/c74c5080-8031-4867-bc34-66878fb89340/47lM" 
+                                            data-button-text="Book Now">Book Now</a>
+                                        -->
+                                        <a href="/book" 
                                             data-track-event-category="cta"
-                                            data-track-event-action="clicks to host/request"
-                                            data-track-event-label="Request this spot"
-                                            class="athena-button primary large">Request this spot.</a>
+                                            data-track-event-action="clicks to book from venue"
+                                            data-track-event-label="Book a spot (active)"
+                                            class="athena-button primary large">Check availability + Reserve a session</a>
+                                        <br><br>
+
+                                    <?php elseif( $post->post_type == 'venue' && !$active ): ?>
+                                        <br><br><small></small>
+                                        <a href="/book" 
+                                            data-track-event-category="cta"
+                                            data-track-event-action="clicks to book from venue"
+                                            data-track-event-label="Book a spot (inactive)"
+                                            class="athena-button primary large">Check availability</a>
                                     <?php endif; ?>
 
                             </div>
@@ -130,18 +154,29 @@ $mapurl = "https://www.google.com/maps?q=".urlencode($address);
             </div>
             <div class="row">
                 <div class="col-sm-12">
-
+                    <br><br>
                     <div class="callout">
+                        <strong>The City is our Photo Studio</strong>
+                        <br>
+                        <small>We've curated some of the best places around Portland, Oregon, to capture eye-catching, natural-looking portraits.
+                        We believe you should <strong>look as great online as you do in real life</strong>. We find that when you're out
+                        in natural and public spaces, you'll forget you're on camera&mdash;and you'll look relaxed and just like YOU ... great!</small>
+                        <br><br>
+                        <strong>How it Works</strong>
+                        <br>
+                        <small>We offer fun locations to fit your personality and at convient times to fit your schedule. Sessions typically take less
+                        than 15 minutes (it's how we keep it affordable for you and profitable for our photographers) 
+                        and you'll get professional photos to use on all your online profiles. 
+                        Whether you need an eye-catching, up-to-date photo for your LinkedIn, Facebook, dating profile or any professional or personal needs&mdash;FotoSnap photographers have you covered.</small>
+                        <!--
                         <small>Whether you are online looking for a job or a date, a selfie is a bad way to make a good impression. Instead, book a FotoSnap mini photo session! We offer fun locations to fit your personality and convenient times to fit your schedule. Just $49 and a 15 minute session gets you a professional photo to use on all your online profiles.</small>
+                        -->
                     </div>
                     <br>
-                    <?php if( is_array($attributes) && !in_array('indoor', $attributes) ): ?>
-                        <div class="callout">
-                            We know the weather can be difficult this time of year. While crisp air and holiday lighting can create a great natural looking photo, 
-                            windstorms and hard rain is just too much nature for the camera. 
-                            If Mother Nature doesn't cooperate, we'll reschedule your session or issue a refund.
-                        </div>
-                    <?php endif; ?>
+
+                    <!-- 
+                    <a href="http://www.peek.com/purchase/gift_card/592dbb1e66b50b9871000110" class="peek-book-button-flat peek-book-btn-yellow peek-book-button-size-lg peek-book-icon-gift" data-purchase-type="gift-card" data-button-text="Purchase Gift Card" data-partner-gid="592dbb1e66b50b9871000110">FotoSnap</a>
+                    -->
 
                     <br>
                     <br>
@@ -156,7 +191,7 @@ $mapurl = "https://www.google.com/maps?q=".urlencode($address);
                         }
                     ?>
                 </div>
-                <?php if( $active ): // output "extra" content here in case iframe doesn't load and for seo ?>
+                <?php if( false && $active ): // output "extra" content here in case iframe doesn't load and for seo ?>
                 <div class="col-sm-12">
                 <h3>More about this location</h3>
                     <?php the_content() ?>
