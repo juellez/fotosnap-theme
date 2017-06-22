@@ -58,7 +58,7 @@ if( is_admin() ):
       }
     }
   }
-  add_action( 'do_meta_boxes', fs_handle_metaboxes );
+  add_action( 'do_meta_boxes', 'fs_handle_metaboxes' );
 
   function fs_admin_footer_text() {
     $footerText = '<div class="quote">';
@@ -71,7 +71,7 @@ if( is_admin() ):
         "smile.",
         "have we told you lately, that we love you?",
       );
-    $footerText .= $quotes[ rand(0, sizeof($quotes)) ];
+    $footerText .= $quotes[ rand(0, sizeof($quotes)-1) ];
     $footerText .= '</div>';
     return $footerText;
   }

@@ -8,7 +8,7 @@ get_header();
 <div id="primary" class="content-area">
     <main id="main" class="site-main athena-page" role="main">
 
-        <?php while (have_posts()) : the_post(); ?>
+        <?php while (have_posts()) : the_post(); $post_id = get_the_ID(); ?>
 
             <div class="row">
                 

@@ -272,9 +272,9 @@ function fs_register_photographer_post_type() {
 }
 
 function fs_show_child_pages($child_pages,$colw=3){
-
+    global $post;
     while ( $child_pages->have_posts() ) : $child_pages->the_post();
-       if( $post->post_name != 'host' && $post->post_name != 'apply' ):
+       if( $post && $post->post_name != 'host' && $post->post_name != 'apply' ):
            echo '<div class="col-xs-6 col-sm-'.$colw.' thumb-card">';
            echo '<a href="';
            the_permalink();
