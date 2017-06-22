@@ -52,33 +52,26 @@ get_header();
 
                 <h1 class="title">Book Now</h1>
 
-                <p>Select a time slot on the calendar to <strong>book a photoshoot instantly</strong>.
-                Have a specific place in mind? Filter the calendar by location.
-                Don’t see a time slot or location that works well for you? 
-                <a href="/contact" class="ga-track" data-track-event-category="bookings" data-track-event-action="contact us">Let us know</a> a few times or places you’d love to see and we’ll do our best to make it happen.</p>
-
-                <?php // the_content(); ?>
-
-                <div class="zozi-frame-wrapper">
-
-                    <iframe data-src="https://a.zozi.com/#/embed/fotosnapor/calendar?embedOptions=%7B%22merchantCode%22%3A%22fotosnapor%22%2C%22view%22%3A%22month%22%2C%22productIDs%22%3A%22%22%2C%22capacityDisplay%22%3A%22text%22%2C%22capacityText%22%3A%22BOOK%22%2C%22soldOutDisplay%22%3A%22text%22%2C%22soldOutText%22%3A%22Sold%20Out%22%2C%22includeName%22%3Anull%2C%22pastDatesBehavior%22%3A%22hide%22%2C%22allowAddonsPriceRollup%22%3A%22true%22%2C%22availabilityView%22%3A%22first%22%2C%22modalButtonText%22%3A%22Open%20Calendar%22%2C%22listButtonText%22%3A%22Book%20Now%22%2C%22buttonTextColor%22%3A%22%23FFFFFF%22%2C%22iconColor%22%3A%22%23000000%22%2C%22checkoutButtonColor%22%3A%22%23F0722C%22%2C%22accentColor%22%3A%22%23f37521%22%2C%22allowLocationHashControl%22%3A%22true%22%2C%22productContent%22%3A%22show%22%2C%22showProductsPage%22%3A%22hide%22%2C%22defaultOpenView%22%3A%22app.embed.merchant.calendarWidget%22%2C%22addonsPage%22%3A%22show%22%2C%22buttonBackground%22%3A%22%23FF8200%22%2C%22lowerMaxQuantitySelectableLimit%22%3A1000%2C%22upperMaxQuantitySelectableLimit%22%3A10000%7D" data-allow-hashchange="true" frameborder="0" id="zozi-embedded-checkout" scrolling="no" seamless="seamless" class="zozi-frame-full"></iframe><script src="https://a.zozi.com/assets/widgets/embedded.origin.js"></script>
-
-                </div>
-
-                <br><br>
-
-                <div class="center">
-                    <br><br>
-                    <small>Want to be the first to know when a new location is added?</small>
-                    <br><br>
-                    <a href="http://eepurl.com/bB6v6j"
+                <p>Select a time slot on the calendar to <strong>book a photoshoot instantly</strong>. <em>(Sometimes it can take the calendar a moment to load.)</em>
+                
+                You can also <a href="/contact" class="ga-track" data-track-event-category="bookings" data-track-event-action="contact us">request a PopUp near you</a> &mdash; and join our mailing list to 
+                <a href="http://eepurl.com/bB6v6j"
                         data-track-event-category="cta"
                         data-track-event-action="clicks to join mailing list"
                         data-track-event-label="Join our Mailing List"
-                       class="ga-track athena-button primary large">Join our Mailing List</a>                            
-               </div>
+                       class="ga-track">be alerted in a few weeks</a>, when new PopUps are announced.</p>
 
-                <br><br>
+                <div class="peek-frame-wrapper">
+                    <div class="peek-frame">
+                        <a href="https://www.peek.com/s/c74c5080-8031-4867-bc34-66878fb89340/kPJY" 
+                    data-embed="true" class="" data-button-text="View Full Calendar">View Full Calendar</a>
+                    </div>
+                </div>
+
+
+                <?php // the_content(); ?>
+
+                <h2 class="center">Popular Locations</h2>
                 <br><br>
 
                 <?php fs_show_venues('active') ?>
