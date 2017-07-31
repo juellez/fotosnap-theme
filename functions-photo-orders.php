@@ -17,6 +17,19 @@ function fs_ngg_manage_gallery_columns($columns){
       return $columns;
 }
 
+
+/* ----------------------------
+    COUPONS MANAGEMENT
+----------------------------- */
+remove_filter('manage_ngg_coupon_posts_custom_column', array($obj,'fs_manage_ngg_coupon_posts_custom_column'), 10, 2);
+add_filter('manage_ngg_coupon_posts_custom_column', 'fs_manage_ngg_coupon_posts_custom_column', 11, 2);
+function manage_ngg_coupon_posts_custom_column($column, $post_id){
+  if( $column == 'order_count' ){
+      $count = C_Coupon_Mapper::get_instance()->get_use_count($post_id);
+      echo number_format_i18n($count, 0);
+  }
+}
+
 /* ---------------------------------
     PHOTO SHOOTS (BOOKINGS)
 
@@ -198,7 +211,7 @@ function fs_get_gallery_sessions_extended_q($all_or_linked='linked'){
     LEFT JOIN wp_posts v ON venue.meta_value = v.ID
   LEFT JOIN wp_postmeta photo_gallery ON (photo_gallery.meta_key = \"photo_gallery\" and photo_gallery.post_id = p.ID)
 
-  WHERE p.post_type = \"shoot\"
+  WHERE p.post_type = \"shoot\" and p.post_status != 'trash'
   ";
   if( $all_or_linked == 'linked' ){
     $q .= "AND p.post_status = 'publish' HAVING gallery_id > 0";

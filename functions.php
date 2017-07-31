@@ -43,12 +43,12 @@ function fs_enqueue_styles() {
     $parent_style = 'athena';
 
     // since this is a child, it won't load the master/parent sheet automatically
-    wp_register_style( 'athena-master', get_template_directory_uri() . '/style.css' );
+    wp_register_style( 'athena-master', get_template_directory_uri() . '/style.css',  null, '1.1.6' );
     wp_enqueue_style( 'athena-master' );
 
     // load ga-tracking and other custom scripts
     wp_register_script( 'fs-scripts', get_stylesheet_directory_uri() . '/scripts.js',
-        array('jquery'), '1.0.0', true );
+        array('jquery'), '1.0.5', true );
     wp_enqueue_script('fs-scripts');
 
     // override the athena-customizer
