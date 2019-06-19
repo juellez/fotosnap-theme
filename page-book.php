@@ -61,26 +61,10 @@ get_header();
                         data-track-event-label="Join our Mailing List"
                        class="ga-track">be alerted in a few weeks</a>, when new PopUps are announced.</p>
 
-                <div class="peek-frame-wrapper">
-                    <div class="peek-frame">
-                        <a href="https://www.peek.com/s/c74c5080-8031-4867-bc34-66878fb89340/kPJY" 
-                    data-embed="true" class="" data-button-text="View Full Calendar">View Full Calendar</a>
-                    </div>
-                </div>
-
-
-                <?php // the_content(); ?>
-
-                <h2 class="center">Popular Locations</h2>
-                <br><br>
-
-                <?php fs_show_venues('active') ?>
-
-                <br><br>
-                <br><br>
-
-            </div>
-
+                <!-- FareHarbor calendar of all items -->
+<script src="https://fareharbor.com/embeds/script/calendar/fotosnap/?fallback=simple&full-items=yes"></script>
+<!-- FareHarbor item grid of all items -->
+<script src="https://fareharbor.com/embeds/script/items/fotosnap/?full-items=yes&fallback=simple"></script>
         <?php endwhile; // End of the loop. ?>
 
     </main><!-- #main -->
