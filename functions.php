@@ -214,7 +214,6 @@ add_action( 'wp_loaded', 'fs_child_remove_parent_function' );
 add_action( 'athena_homepage', 'fs_render_homepage', 15 );
 add_action( 'athena_footer', 'fs_render_footer' );
 
-
 /**
  * Add additional sliders (not using just yet)
  */
@@ -301,4 +300,17 @@ function fs_customize_register( $wp_customize ) {
     $wp_customize->get_setting( 'featured_image4' )->transport      = 'postMessage';
 }
 */
+
+/* cleanup some plugin conflicts
+ * 1. ultimate member
+ */
+if( class_exists('UM_Enqueue') ){
+	// and we're NOT in a profile page
+	function remove_um_scripts() {
+			$priority = apply_filters( 'um_core_enqueue_priority', 100 );
+			remove_action('wp_enqueue_scripts', array('UM_Enqueue', 'wp_enqueue_scripts'), $priority);
+	}
+	add_action( 'wp_enqueue_scripts', 'remove_um_scripts', 1000 ); // run AFTER any UM scripts
+}
+
 ?>
