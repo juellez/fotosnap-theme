@@ -28,15 +28,7 @@ get_header();
             'profile-bkg' => array(
                 'tagline' => "Finally. Something to smile about.",
                 'align' => 'right'
-            ),
-            // 'yellow' => array(
-            //     'tagline' => "It's 2017. Time to FotoSnap your profile.",
-            //     'align' => 'right'
-            // ),
-            // 'yellow-shoot' => array(
-            //     'tagline' => "Locations for every personality.",
-            //     'align' => 'left'
-            // ),
+            )
         );
         $i = 1;
 
@@ -97,14 +89,14 @@ get_header();
         <?php do_action('athena_homepage'); ?>
 
         <div class="row">
-            <div class="homepage-page-content how-it-works">
+            <div class="homepage-page-content how-it-works center">
                 <?php if (is_home() && is_front_page()) :
                     // fetch the homepage editable copy
-                    // $page = get_page_by_path('home', OBJECT, 'page');
-                    // echo $page->post_content;
+                    $page = get_page_by_path('home', OBJECT, 'page');
+                    echo $page->post_content;
                 endif; ?>
+                <? /*
 
-                <div class="center">
                 With FotoSnap, getting <strong>great photos</strong> for your online profile is a snap! <strong>Convenient, flexible and fresh,</strong> a FotoSnapped profile will <strong>get you noticed</strong>&mdash;helping you get that job, date or client.
                 </div>
 
@@ -124,10 +116,10 @@ get_header();
                             We pick, edit and share the best photos&nbsp;for you to choose from within 2 business days. Choose the one you want, download it for free—and enjoy the extra attention.
                           </div>
                         </div>
-                        <div class="center"><a href="/venues" data-track-event-category="cta" data-track-event-action="clicks to book" data-track-event-label="Get Started" class="ga-track athena-button primary large">Get Started</a></div> 
+                        <div class="center"><a href="/book" data-track-event-category="cta" data-track-event-action="clicks to book" data-track-event-label="Get Started" class="ga-track athena-button primary large">Get Started</a></div> 
                 </div>
+                */ ?>
 
-            </div>
         </div>
 
         <div class="row">
@@ -135,8 +127,9 @@ get_header();
                 <?php if (is_home() && is_front_page()) :
                     // @todo pull hard-coded copy into page for editability
                     // fetch the homepage editable copy
-                    // $page = get_page_by_path('home/testimonials', OBJECT, 'page');
-                    // echo $page->post_content;
+                    $page = get_page_by_path('home/testimonials', OBJECT, 'page');
+                    echo $page->post_content;
+                    /*
                 endif; ?>
 
                 <p>&nbsp;</p>
@@ -174,22 +167,20 @@ get_header();
                     class="ga-track athena-button default">Meet More Happy Clients</a>
                 </div>
                 -->
-
+                */
+                ?>
             </div>
         </div>
 
         <div class="clear">&nbsp;</div>
 
         <div class="row">
-            <div class="homepage-page-content venues center">
-                <? // figure out how to pull in a page ?>
-            </div>
-        </div>
-
-        <div class="clear"><br><br><br></div>
-
-        <div class="row">
-            <div class="homepage-page-content venues center">
+            <div class="homepage-page-content center">
+                <? // pull in homepage Cities & Next Photoshoot "block"
+                    $page = get_page_by_path('home/promo', OBJECT, 'page');
+                    echo $page->post_content;
+                ?>
+                <? /*
 
                 <h2>Save 10% Your Next Photoshoot</h2>
                 <p>Join our mailing list and save.</p>
@@ -201,6 +192,7 @@ get_header();
                         data-track-event-label="Join Now"
                        class="ga-track athena-button primary large">Join Now</a>                            
                 </div>
+                */ ?>
             </div>
         </div>
 
