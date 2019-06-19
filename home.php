@@ -52,8 +52,6 @@ get_header();
 
                     <h3>The City is our Studio</h3>
 
-                    <?php fs_show_venues('active',$post->ID,1) ?>
-
                 </div>
             </div>
 

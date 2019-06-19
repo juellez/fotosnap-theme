@@ -182,18 +182,7 @@ get_header();
 
         <div class="row">
             <div class="homepage-page-content venues center">
-
-                <h2>PopUp Studios @ Fun Locations</h2>
-                <p>Snag your spot in these upcoming photoshoots before they fill up.</p>
-                <?php fs_show_venues('active') ?>
-                <div class="col-md-12 center">
-                    <br>
-                    <a href="/venues"
-                        data-track-event-category="cta"
-                        data-track-event-action="clicks to view locations"
-                        data-track-event-label="See More"
-                       class="ga-track athena-button primary large">See More</a>                            
-                </div>
+                <? // figure out how to pull in a page ?>
             </div>
         </div>
 
