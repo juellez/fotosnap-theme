@@ -1,0 +1,171 @@
+/*
+ Theme Name:   Fotosnap - Athena Child
+ Theme URI: https://smartcatdesign.net/articles/athena-responsive-multipurpose-wordpress-theme/
+ Description:  Athena Child Theme
+ Author: Jewel extended Smartcat's Athena 
+ Author URI: https://smartcatdesign.net
+ Template:     athena
+ Version: 1.0.9
+ License:      GNU General Public License v2 or later
+ License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+ Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
+ Text Domain: athena-child
+*/
+
+
+html,
+body,
+button,
+input,
+select,
+textarea {
+  font-family: 'Raleway', sans-serif;
+}
+
+/* color scheme */
+
+a,a:visited{
+    color: ##1cb6c8;
+}
+
+a:hover,
+a:focus,
+.site-info a:hover{
+    color: #1cb6c9;
+}
+
+ul.athena-nav > li.menu-item.current-menu-item a,
+ul.athena-nav > li.menu-item.current-menu-parent a,
+ul.athena-nav > li.menu-item a:hover{
+    
+    border-bottom: 2px solid #1cb6c9;
+
+}
+
+ul.athena-nav > li > ul li.current-menu-item > a{
+    color: ##1cb6c8;
+}
+
+ul.athena-nav ul li a:hover{
+    color: #1cb6c9;
+}
+
+.athena-button.primary,
+button, 
+input[type="button"], 
+input[type="submit"],
+.woocommerce button.button.alt, 
+.woocommerce input.button.alt,
+.woocommerce #respond input#submit.alt, 
+.woocommerce a.button.alt{
+    background: ##1cb6c8;
+    color: #fff;
+}
+
+.athena-button.primary:hover,
+.woocommerce button.button.alt:hover, 
+.woocommerce input.button.alt:hover,
+.woocommerce #respond input#submit.alt:hover, 
+.woocommerce a.button.alt:hover{
+    background: #1cb6c9;
+}
+
+.woocommerce .woocommerce-message{
+    border-top-color: ##1cb6c8;
+}
+
+.woocommerce .woocommerce-message:before{
+    color: ##1cb6c8;
+}
+
+.main-navigation .athena-cart,
+.athena-mobile-cart .athena-cart{
+    background: ##1cb6c8 !important;
+    transition: 0.25s all ease-in-out;
+    -moz-transition: 0.25s all ease-in-out;
+    -webkit-transition: 0.25s all ease-in-out;
+    top: -5px;
+}
+
+.main-navigation .athena-cart:hover,
+.athena-mobile-cart .athena-cart:hover{
+    background: #1cb6c9 !important;
+}
+
+#athena-featured,
+.woocommerce span.onsale{
+    background: ##1cb6c8;
+    color: #fff;
+}
+#athena-featured .fa{
+    color: #fff;
+}
+
+#authica-social a:hover{
+    color: #1cb6c9;
+}
+
+.scroll-top:hover{
+    background: #1cb6c9;
+}
+
+#athena-overlay-trigger{
+    border-color: transparent transparent ##1cb6c8 transparent;
+}
+
+/* top nav */
+body #athena-logo img {
+    max-height: 80px;
+    padding: 0;
+    margin-top: 7px;
+}
+
+body #athena-header.frontpage.sticky .header-inner #athena-logo img {
+  padding: 2px 0 5px;
+}
+
+body #athena-header.frontpage .header-inner {
+    background: rgba(27,27,27,0.6);
+    height: 76px;
+}
+
+body .site-branding { padding: 0 0; }
+
+body .main-navigation {
+  padding: 10px 0 0;
+}
+body #athena-header.frontpage.sticky .main-navigation {
+  padding: 0 0;
+  margin-top: -6px;
+}
+
+body ul.athena-nav > li.menu-item:nth-last-child(1)  {
+    border: solid 1px #fff;
+    padding: 10px 10px 2px;
+    margin-top: -10px;
+}
+
+body ul.athena-nav > li.menu-item a {
+    font-size: 16px;
+    font-family: Raleway, sans-serif;
+    font-weight: 200;
+    text-transform: uppercase;
+}
+
+/* homepage */
+#athena-jumbotron .overlay .parallax {
+    background-color: rgba(0,0,0,.5);
+}
+
+.homepage-page-content .entry-title { font-weight: 400; }
+.homepage-page-content .entry-meta { display: none; }
+.homepage-page-content.how-it-works {
+  margin: 40px 0;
+  font-size: 140%;
+  font-weight: lighter;
+}
+
+#athena-homepage-widget > div {
+  background: rgba(10,10,10, 0.1);
+}
+
