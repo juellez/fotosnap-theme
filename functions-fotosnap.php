@@ -1,6 +1,7 @@
 <?php
 /*
   FOTOSNAP content types, roles and other configurations
+  2019: removing venues, photographers & shoots (moved to shoot proof)
 */
 
 
@@ -76,7 +77,7 @@ function fs_status_init() {
         )
     );
 }
-add_action( 'init', 'fs_status_init' );
+// add_action( 'init', 'fs_status_init' );
 
 
 /*-------------------------------------------*\
@@ -89,8 +90,8 @@ add_action( 'init', 'fs_status_init' );
 \*-------------------------------------------*/
 
 // Custom Post Type
-add_action("init", "fs_register_shoot_post_type"); // Add our custom post type
-add_action('init', 'fs_register_shoot_menu'); // Add to admin menu
+// add_action("init", "fs_register_shoot_post_type"); // Add our custom post type
+// add_action('init', 'fs_register_shoot_menu'); // Add to admin menu
 
 function fs_register_shoot_menu()
 {
@@ -235,62 +236,7 @@ function fs_hookPeekCode() {
         </script>
     <?php
 }
-add_action('wp_head', 'fs_hookPeekCode');
-
-
-/*-------------------------------------------*\
-   Photographer Content Type
-\*-------------------------------------------*/
-
-// Custom Post Type
-add_action("init", "fs_register_photographer_post_type"); // Add our custom post type
-add_action('init', 'fs_register_photographer_menu'); // Add to admin menu
-
-function fs_register_photographer_menu()
-{
-    register_nav_menus(array( // Using array to specify more menus if needed
-        'header-menu' => __('Header Menu', 'photographer'), // Main Navigation
-        'sidebar-menu' => __('Sidebar Menu', 'photographer'), // Sidebar Navigation
-        'extra-menu' => __('Extra Menu', 'photographer') // Extra Navigation if needed (duplicate as many as you need!)
-    ));
-}
-function fs_register_photographer_post_type() {
-    register_post_type( "photographer",
-        array(
-            "labels" => array(
-                "name" => __( "Photographers" ),
-                "singular_name" => __( "Photographer" ),
-                "add_new" => __( "Add New" ),
-                "add_new_item" => __( "Add New Photographer" ),
-                "edit" => __( "Edit" ),
-                "edit_item" => __( "Edit Photographer" ),
-                "new_item" => __( "New Photographer" ),
-                "view" => __( "View Photographers" ),
-                "view_item" => __( "View Photographer" ),
-                "search_items" => __( "Search Photographers" ),
-                "not_found" => __( "No Photographers Found" ),
-                "not_found_in_trash" => __( "No Photographers Found in trash" ),
-                "parent" => __( "Photographer" ),
-            ),
-            "rewrite" => array(
-                "slug" => "photographers",
-                "with_front" => true,
-                "pages" => true,
-                ),
-            'description' => 'Photographers setup in Zozi for booking.',
-            'public' => true,
-            'exclude_from_search' => false,
-            'publicly_queryable' => true,
-            'show_ui' => true,
-            'menu_position' => 5,
-            'menu_icon' => 'dashicons-admin-users',
-            'capability_type' => 'post',
-            "has_archive" => false,
-            "supports" => array( "author","title", "editor", "revisions","thumbnail"),
-            'can_export' => true,
-            )
-        );
-}
+// add_action('wp_head', 'fs_hookPeekCode');
 
 function fs_show_child_pages($child_pages,$colw=3){
     global $post;
@@ -309,151 +255,6 @@ function fs_show_child_pages($child_pages,$colw=3){
            echo '</a></h4></div>';
        endif;
     endwhile;
-
-}
-
-function fs_show_photographers($status='',$colw=3){
-    global $post;
-    $id = $post->ID;
-
-    $child_pages_query_args = array(
-        'post_type'   => 'photographer',
-        'orderby'     => 'date DESC',
-        'posts_per_page' => -1
-    );
-    if( $status ){
-        $child_pages_query_args['tax_query'] = array(
-            array(
-                'taxonomy' => 'status',
-                'field' => 'slug',
-                'terms' => array ($status)
-            )
-        );
-    }
-     
-    $child_pages = new WP_Query( $child_pages_query_args );
-    fs_show_child_pages($child_pages,$colw);
-    wp_reset_postdata(); //remember to reset data
-}
-
-/*-------------------------------------------*\
-   Venue Content Type
-\*-------------------------------------------*/
-
-// Custom Post Type
-add_action("init", "fs_register_venue_post_type"); // Add our custom post type
-add_action('init', 'fs_register_venue_menu'); // Add to admin menu
-
-function fs_register_venue_menu()
-{
-    register_nav_menus(array( // Using array to specify more menus if needed
-        'header-menu' => __('Header Menu', 'venue'), // Main Navigation
-        'sidebar-menu' => __('Sidebar Menu', 'venue'), // Sidebar Navigation
-        'extra-menu' => __('Extra Menu', 'venue') // Extra Navigation if needed (duplicate as many as you need!)
-    ));
-}
-function fs_register_venue_post_type() {
-    register_post_type( "venue",
-        array(
-            "labels" => array(
-                "name" => __( "Venues" ),
-                "singular_name" => __( "Venue" ),
-                "add_new" => __( "Add New" ),
-                "add_new_item" => __( "Add New Venue" ),
-                "edit" => __( "Edit" ),
-                "edit_item" => __( "Edit Venue" ),
-                "new_item" => __( "New Venue" ),
-                "view" => __( "View Venues" ),
-                "view_item" => __( "View Venue" ),
-                "search_items" => __( "Search Venues" ),
-                "not_found" => __( "No Venues Found" ),
-                "not_found_in_trash" => __( "No Venues Found in trash" ),
-                "parent" => __( "Venue" ),
-            ),
-            "rewrite" => array(
-                "slug" => "venues",
-                "with_front" => true,
-                "pages" => true,
-                ),
-            'description' => 'Venues setup in Zozi for booking.',
-            'public' => true,
-            'exclude_from_search' => false,
-            'publicly_queryable' => true,
-            'show_ui' => true,
-            'menu_position' => 5,
-            'menu_icon' => 'dashicons-location',
-            'capability_type' => 'post',
-            "has_archive" => false,
-            "supports" => array( "title", "editor", "revisions","thumbnail"),
-            'can_export' => true,
-            )
-        );
-}
-
-function fs_show_venues($status='',$colw=3){
-    global $post;
-    $id = $post->ID;
-
-    $child_pages_query_args = array(
-        'post_type'   => 'venue',
-        'orderby'     => 'date DESC',
-        'posts_per_page' => -1
-    );
-    if( $status ){
-        $child_pages_query_args['tax_query'] = array(
-            array(
-                'taxonomy' => 'status',
-                'field' => 'slug',
-                'terms' => array ($status)
-            )
-        );
-    }
-     
-    $child_pages = new WP_Query( $child_pages_query_args );
-    fs_show_child_pages($child_pages,$colw);
-    wp_reset_postdata(); //remember to reset data
-}
-
-/* --------------------
-    get related photographer / venue
-    currently sites on top of custom fields "relationship" type
------------------------ */
-
-function fs_show_related_photogs_venues($type,$post_id=0) {
-    global $post; 
-    if( !$post_id ) $post_id = $post->ID;
-    // work off related post
-    $colw=3;
-    $ids = get_field('photog_venue_match', $post_id, false);
-    if( $ids ){
-        $child_pages = new WP_Query(array(
-            'post_type'         => $type,
-            'posts_per_page'    => 8,
-            'post__in'          => $ids,
-            'post_status'       => 'any',
-            'orderby'           => 'post__in',
-        ));
-        fs_show_child_pages($child_pages,$colw);
-        wp_reset_postdata(); //remember to reset data
-    }
-}
-
-function fs_get_photographer_by_userid($profileID=0) {
-
-    $photographer = 0;
-    $photographer_posts = new WP_Query(array(
-        'post_type'         => 'photographer',
-        'posts_per_page'    => 1,
-        'author'            => $profileID,
-        'post_status'       => 'any',
-    ));
-    // var_dump($photographer_posts);
-    while ( $photographer_posts->have_posts() ){
-        $photographer_posts->the_post();
-        $photographer = get_post();
-    }
-    wp_reset_postdata(); //remember to reset data
-    return $photographer;
 
 }
 
